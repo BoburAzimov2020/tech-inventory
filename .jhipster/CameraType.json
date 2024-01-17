@@ -1,0 +1,35 @@
+{
+  "annotations": {
+    "changelogDate": "20240117115948"
+  },
+  "applications": "*",
+  "documentation": "Camera turi",
+  "dto": "mapstruct",
+  "entityTableName": "camera_type",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "CameraType",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "obyekt",
+      "relationshipName": "obyekt",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

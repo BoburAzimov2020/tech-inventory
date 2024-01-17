@@ -11,7 +11,61 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117114948_added_entity_Region.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115048_added_entity_District.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115148_added_entity_ObjectTasnifi.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115248_added_entity_ObjectTasnifiTuri.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115348_added_entity_Loyiha.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115448_added_entity_BuyurtmaRaqam.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115548_added_entity_Obyekt.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115648_added_entity_Attachment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115748_added_entity_Shelf.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115848_added_entity_ShelfType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115948_added_entity_CameraType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120048_added_entity_CameraBrand.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120148_added_entity_Camera.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120248_added_entity_SwichType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120348_added_entity_Swich.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120448_added_entity_Ups.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120548_added_entity_Rozetka.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120648_added_entity_Avtomat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120748_added_entity_CabelType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120848_added_entity_Cabel.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120948_added_entity_StoykaType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121048_added_entity_Stoyka.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121148_added_entity_ProjectorType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121248_added_entity_Projector.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121348_added_entity_SvitaforDetector.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121448_added_entity_TerminalServer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121548_added_entity_Stabilizator.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121648_added_entity_Akumulator.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20240117115048_added_entity_constraints_District.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115148_added_entity_constraints_ObjectTasnifi.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115248_added_entity_constraints_ObjectTasnifiTuri.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115348_added_entity_constraints_Loyiha.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115448_added_entity_constraints_BuyurtmaRaqam.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115548_added_entity_constraints_Obyekt.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115648_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115748_added_entity_constraints_Shelf.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115848_added_entity_constraints_ShelfType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117115948_added_entity_constraints_CameraType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120148_added_entity_constraints_Camera.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120248_added_entity_constraints_SwichType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120348_added_entity_constraints_Swich.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120448_added_entity_constraints_Ups.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120548_added_entity_constraints_Rozetka.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120648_added_entity_constraints_Avtomat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120748_added_entity_constraints_CabelType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120848_added_entity_constraints_Cabel.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117120948_added_entity_constraints_StoykaType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121048_added_entity_constraints_Stoyka.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121148_added_entity_constraints_ProjectorType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121248_added_entity_constraints_Projector.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121348_added_entity_constraints_SvitaforDetector.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121448_added_entity_constraints_TerminalServer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121548_added_entity_constraints_Stabilizator.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240117121648_added_entity_constraints_Akumulator.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

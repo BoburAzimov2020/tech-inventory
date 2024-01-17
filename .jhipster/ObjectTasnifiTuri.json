@@ -1,0 +1,29 @@
+{
+  "annotations": {
+    "changelogDate": "20240117115248"
+  },
+  "applications": "*",
+  "documentation": "Object tasnifi turi",
+  "dto": "mapstruct",
+  "entityTableName": "object_tasnifi_turi",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    }
+  ],
+  "name": "ObjectTasnifiTuri",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "district",
+      "relationshipName": "district",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

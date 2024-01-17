@@ -1,0 +1,36 @@
+{
+  "annotations": {
+    "changelogDate": "20240117115848"
+  },
+  "applications": "*",
+  "documentation": "Javon Turi",
+  "dto": "mapstruct",
+  "entityTableName": "shelf_type",
+  "fields": [
+    {
+      "documentation": "Javon turlari",
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "64"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "ShelfType",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "obyekt",
+      "relationshipName": "obyekt",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

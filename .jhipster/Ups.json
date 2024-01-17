@@ -1,0 +1,42 @@
+{
+  "annotations": {
+    "changelogDate": "20240117120448"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "ups",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "model",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "power",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "Ups",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "obyekt",
+      "relationshipName": "obyekt",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
