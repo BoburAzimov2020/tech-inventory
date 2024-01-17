@@ -1,0 +1,42 @@
+{
+  "annotations": {
+    "changelogDate": "20240117121448"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "terminal_server",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "model",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ip",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "TerminalServer",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "obyekt",
+      "relationshipName": "obyekt",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

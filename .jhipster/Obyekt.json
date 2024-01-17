@@ -1,0 +1,51 @@
+{
+  "annotations": {
+    "changelogDate": "20240117115548"
+  },
+  "applications": "*",
+  "documentation": "Локация - полный адресс.",
+  "dto": "mapstruct",
+  "entityTableName": "obyekt",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "home",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "street",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "latitude",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "longitude",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "Obyekt",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "buyurtmaRaqam",
+      "relationshipName": "buyurtmaRaqam",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

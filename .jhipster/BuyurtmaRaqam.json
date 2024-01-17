@@ -1,0 +1,30 @@
+{
+  "annotations": {
+    "changelogDate": "20240117115448"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "buyurtma_raqam",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numberOfOrder",
+      "fieldType": "String"
+    }
+  ],
+  "name": "BuyurtmaRaqam",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "loyiha",
+      "relationshipName": "loyiha",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

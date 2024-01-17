@@ -1,0 +1,38 @@
+{
+  "annotations": {
+    "changelogDate": "20240117121248"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "projector",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "model",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "Projector",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "projectorType",
+      "relationshipName": "projectorType",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

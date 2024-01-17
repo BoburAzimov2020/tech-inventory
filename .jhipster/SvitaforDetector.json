@@ -1,0 +1,42 @@
+{
+  "annotations": {
+    "changelogDate": "20240117121348"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "svitafor_detector",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "model",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "portNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "SvitaforDetector",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "obyekt",
+      "relationshipName": "obyekt",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

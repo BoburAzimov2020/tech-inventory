@@ -1,0 +1,38 @@
+{
+  "annotations": {
+    "changelogDate": "20240117120848"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "cabel",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "model",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "info",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "name": "Cabel",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "cabelType",
+      "relationshipName": "cabelType",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -48,6 +48,34 @@ public class CacheConfiguration {
             createCache(cm, uz.dynamic.techinventory.domain.User.class.getName());
             createCache(cm, uz.dynamic.techinventory.domain.Authority.class.getName());
             createCache(cm, uz.dynamic.techinventory.domain.User.class.getName() + ".authorities");
+            createCache(cm, uz.dynamic.techinventory.domain.Region.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.District.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.ObjectTasnifi.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.ObjectTasnifiTuri.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Loyiha.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.BuyurtmaRaqam.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Obyekt.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Attachment.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Shelf.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.ShelfType.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.CameraType.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.CameraBrand.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Camera.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.SwichType.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Swich.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Ups.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Rozetka.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Avtomat.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.CabelType.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Cabel.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.StoykaType.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Stoyka.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.ProjectorType.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Projector.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.SvitaforDetector.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.TerminalServer.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Stabilizator.class.getName());
+            createCache(cm, uz.dynamic.techinventory.domain.Akumulator.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
