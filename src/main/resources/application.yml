@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: TECH-INVENTORY
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+#JWT Token key
+jwt:
+  secret: inventory-secret
+
+# ===============================================================
+# MinIO File Storage options
+# ===============================================================
+
+minio:
+  endpoint: http://minioapi.psec.uz # http://localhost:9000
+  port: 8080
+  bucket: 'thumbnails'
+  accessKey: 'minio99'
+  secretKey: 'minio123'
+  secure: false

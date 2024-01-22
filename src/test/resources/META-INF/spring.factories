@@ -1,2 +1,0 @@
-org.springframework.test.context.ContextCustomizerFactory = uz.dynamic.\
-    techinventory.config.SqlTestContainersSpringContextCustomizerFactory

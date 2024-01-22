@@ -1,19 +1,18 @@
 package uz.dynamic.techinventory.service.mapper;
 
-import java.util.*;
-import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Service;
 import uz.dynamic.techinventory.domain.Authority;
 import uz.dynamic.techinventory.domain.User;
-import uz.dynamic.techinventory.service.dto.AdminUserDTO;
 import uz.dynamic.techinventory.service.dto.UserDTO;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Mapper for the entity {@link User} and its DTO called {@link UserDTO}.
- *
  * Normal mappers are generated using MapStruct, this one is hand-coded as MapStruct
  * support is still in beta, and requires a manual step with an IDE.
  */
@@ -21,38 +20,24 @@ import uz.dynamic.techinventory.service.dto.UserDTO;
 public class UserMapper {
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {
-        return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).toList();
+        return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).collect(Collectors.toList());
     }
 
     public UserDTO userToUserDTO(User user) {
         return new UserDTO(user);
     }
 
-    public List<AdminUserDTO> usersToAdminUserDTOs(List<User> users) {
-        return users.stream().filter(Objects::nonNull).map(this::userToAdminUserDTO).toList();
-    }
-
-    public AdminUserDTO userToAdminUserDTO(User user) {
-        return new AdminUserDTO(user);
-    }
-
-    public List<User> userDTOsToUsers(List<AdminUserDTO> userDTOs) {
-        return userDTOs.stream().filter(Objects::nonNull).map(this::userDTOToUser).toList();
-    }
-
-    public User userDTOToUser(AdminUserDTO userDTO) {
+    public User userDTOToUser(UserDTO userDTO) {
         if (userDTO == null) {
             return null;
         } else {
             User user = new User();
             user.setId(userDTO.getId());
             user.setLogin(userDTO.getLogin());
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
+            user.setFullName(userDTO.getFullName());
             user.setEmail(userDTO.getEmail());
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
-            user.setLangKey(userDTO.getLangKey());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
             return user;

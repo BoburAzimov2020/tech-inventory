@@ -1,23 +1,19 @@
 package uz.dynamic.techinventory.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * An authority (a security role) used by Spring Security.
  */
 @Entity
-@Table(name = "jhi_authority")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Authority implements Serializable {
+@Table(name = "tech_authority")
+public class Authority implements Serializable, GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,6 +22,16 @@ public class Authority implements Serializable {
     @Id
     @Column(length = 50)
     private String name;
+
+    private Boolean deleted = Boolean.FALSE;
+
+    public Authority(@NotNull @Size(max = 50) String name) {
+        this.name = name;
+    }
+
+    public Authority() {
+
+    }
 
     public String getName() {
         return name;
@@ -57,5 +63,10 @@ public class Authority implements Serializable {
         return "Authority{" +
             "name='" + name + '\'' +
             "}";
+    }
+
+    @Override
+    public String getAuthority() {
+        return null;
     }
 }

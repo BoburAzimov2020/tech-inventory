@@ -1,7 +1,7 @@
 package uz.dynamic.techinventory.web.rest;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +17,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
+
 import uz.dynamic.techinventory.repository.AttachmentRepository;
 import uz.dynamic.techinventory.service.AttachmentService;
 import uz.dynamic.techinventory.service.dto.AttachmentDTO;
 import uz.dynamic.techinventory.web.rest.errors.BadRequestAlertException;
+import uz.dynamic.techinventory.web.rest.utils.HeaderUtil;
+import uz.dynamic.techinventory.web.rest.utils.PaginationUtil;
+import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
 
 /**
  * REST controller for managing {@link uz.dynamic.techinventory.domain.Attachment}.
@@ -35,7 +37,7 @@ public class AttachmentResource {
 
     private static final String ENTITY_NAME = "attachment";
 
-    @Value("${jhipster.clientApp.name}")
+    @Value("${spring.application.name}")
     private String applicationName;
 
     private final AttachmentService attachmentService;
@@ -144,7 +146,7 @@ public class AttachmentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of attachments in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<AttachmentDTO>> getAllAttachments(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<AttachmentDTO>> getAllAttachments(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Attachments");
         Page<AttachmentDTO> page = attachmentService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

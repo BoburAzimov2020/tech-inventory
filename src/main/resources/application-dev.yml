@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tech-inventory
+    username: admin
+    password: q7111
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+      location: uploads
+  jpa:
+    show-sql: true
+    open-in-view: off
+web:
+  cors:
+    allowed-origins: 'http://localhost:3000,http://localhost:8080,http://localhost:8090,http://localhost:9595'
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers: 'Authorization,Link,X-Total-Count'
+    allow-credentials: true
+    max-age: 1800
+
+# ===============================================================
+# Swagger Open-API options
+# ===============================================================
+
+api:
+  description: Rest API of TECH-INVENTORY
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    default-models-expand-depth: -1 # set to -1 completely hide the section "Schema"
+    filter: true

@@ -1,6 +1,5 @@
 package uz.dynamic.techinventory.aop.logging;
 
-import java.util.Arrays;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -11,11 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
-import tech.jhipster.config.JHipsterConstants;
+import uz.dynamic.techinventory.config.Constants;
+
+import java.util.Arrays;
 
 /**
  * Aspect for logging execution of service and repository Spring components.
- *
  * By default, it only runs with the "dev" profile.
  */
 @Aspect
@@ -42,11 +42,7 @@ public class LoggingAspect {
     /**
      * Pointcut that matches all Spring beans in the application's main packages.
      */
-    @Pointcut(
-        "within(uz.dynamic.techinventory.repository..*)" +
-        " || within(uz.dynamic.techinventory.service..*)" +
-        " || within(uz.dynamic.techinventory.web.rest..*)"
-    )
+    @Pointcut("within(uz.dynamic.techinventory.repository..*)" + " || within(uz.dynamic.techinventory.service..*)" + " || within(uz.dynamic.techinventory.web.rest..*)")
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
     }
@@ -69,7 +65,7 @@ public class LoggingAspect {
      */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        if (env.acceptsProfiles(Profiles.of(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT))) {
+        if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_DEVELOPMENT))) {
             logger(joinPoint)
                 .error(
                     "Exception in {}() with cause = '{}' and exception = '{}'",
@@ -83,7 +79,7 @@ public class LoggingAspect {
                 .error(
                     "Exception in {}() with cause = {}",
                     joinPoint.getSignature().getName(),
-                    e.getCause() != null ? String.valueOf(e.getCause()) : "NULL"
+                    e.getCause() != null ? e.getCause() : "NULL"
                 );
         }
     }

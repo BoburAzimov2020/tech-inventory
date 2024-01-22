@@ -14,13 +14,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
+
 import uz.dynamic.techinventory.repository.BuyurtmaRaqamRepository;
 import uz.dynamic.techinventory.service.BuyurtmaRaqamService;
 import uz.dynamic.techinventory.service.dto.BuyurtmaRaqamDTO;
 import uz.dynamic.techinventory.web.rest.errors.BadRequestAlertException;
+import uz.dynamic.techinventory.web.rest.utils.HeaderUtil;
+import uz.dynamic.techinventory.web.rest.utils.PaginationUtil;
+import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * REST controller for managing {@link uz.dynamic.techinventory.domain.BuyurtmaRaqam}.
@@ -33,7 +35,7 @@ public class BuyurtmaRaqamResource {
 
     private static final String ENTITY_NAME = "buyurtmaRaqam";
 
-    @Value("${jhipster.clientApp.name}")
+    @Value("${spring.application.name}")
     private String applicationName;
 
     private final BuyurtmaRaqamService buyurtmaRaqamService;
@@ -142,7 +144,7 @@ public class BuyurtmaRaqamResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of buyurtmaRaqams in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<BuyurtmaRaqamDTO>> getAllBuyurtmaRaqams(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<BuyurtmaRaqamDTO>> getAllBuyurtmaRaqams(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of BuyurtmaRaqams");
         Page<BuyurtmaRaqamDTO> page = buyurtmaRaqamService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

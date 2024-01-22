@@ -1,10 +1,12 @@
 package uz.dynamic.techinventory.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import uz.dynamic.techinventory.domain.enumeration.CameraStatus;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * A DTO for the {@link uz.dynamic.techinventory.domain.Camera} entity.

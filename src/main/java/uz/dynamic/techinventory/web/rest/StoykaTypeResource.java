@@ -1,7 +1,7 @@
 package uz.dynamic.techinventory.web.rest;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -16,13 +16,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
+
 import uz.dynamic.techinventory.repository.StoykaTypeRepository;
 import uz.dynamic.techinventory.service.StoykaTypeService;
 import uz.dynamic.techinventory.service.dto.StoykaTypeDTO;
 import uz.dynamic.techinventory.web.rest.errors.BadRequestAlertException;
+import uz.dynamic.techinventory.web.rest.utils.HeaderUtil;
+import uz.dynamic.techinventory.web.rest.utils.PaginationUtil;
+import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * REST controller for managing {@link uz.dynamic.techinventory.domain.StoykaType}.
@@ -35,7 +37,7 @@ public class StoykaTypeResource {
 
     private static final String ENTITY_NAME = "stoykaType";
 
-    @Value("${jhipster.clientApp.name}")
+    @Value("${spring.application.name}")
     private String applicationName;
 
     private final StoykaTypeService stoykaTypeService;
@@ -144,7 +146,7 @@ public class StoykaTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stoykaTypes in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<StoykaTypeDTO>> getAllStoykaTypes(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<StoykaTypeDTO>> getAllStoykaTypes(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of StoykaTypes");
         Page<StoykaTypeDTO> page = stoykaTypeService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

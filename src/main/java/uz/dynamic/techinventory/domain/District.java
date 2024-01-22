@@ -1,7 +1,8 @@
 package uz.dynamic.techinventory.domain;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -15,6 +16,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class District implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

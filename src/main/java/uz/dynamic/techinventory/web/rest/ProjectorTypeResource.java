@@ -1,7 +1,7 @@
 package uz.dynamic.techinventory.web.rest;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -16,13 +16,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
+
 import uz.dynamic.techinventory.repository.ProjectorTypeRepository;
 import uz.dynamic.techinventory.service.ProjectorTypeService;
 import uz.dynamic.techinventory.service.dto.ProjectorTypeDTO;
 import uz.dynamic.techinventory.web.rest.errors.BadRequestAlertException;
+import uz.dynamic.techinventory.web.rest.utils.HeaderUtil;
+import uz.dynamic.techinventory.web.rest.utils.PaginationUtil;
+import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * REST controller for managing {@link uz.dynamic.techinventory.domain.ProjectorType}.
@@ -35,7 +37,7 @@ public class ProjectorTypeResource {
 
     private static final String ENTITY_NAME = "projectorType";
 
-    @Value("${jhipster.clientApp.name}")
+    @Value("${spring.application.name}")
     private String applicationName;
 
     private final ProjectorTypeService projectorTypeService;
@@ -145,7 +147,7 @@ public class ProjectorTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectorTypes in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<ProjectorTypeDTO>> getAllProjectorTypes(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<ProjectorTypeDTO>> getAllProjectorTypes(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of ProjectorTypes");
         Page<ProjectorTypeDTO> page = projectorTypeService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

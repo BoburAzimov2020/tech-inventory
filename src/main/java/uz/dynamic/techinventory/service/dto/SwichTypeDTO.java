@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.dto;
 
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 

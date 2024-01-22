@@ -1,28 +1,29 @@
 package uz.dynamic.techinventory.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import uz.dynamic.techinventory.config.Constants;
+
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import uz.dynamic.techinventory.config.Constants;
 
-/**
- * A user.
- */
 @Entity
-@Table(name = "jhi_user")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Table(name = "users")
+@JsonIgnoreProperties(value = {  "deleted" }, allowSetters = true)
+@SQLDelete(sql = "UPDATE users SET deleted=true WHERE id=?")
+@Where(clause = "deleted=false")
 public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +32,8 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
+
+    private Boolean deleted = Boolean.FALSE;
 
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -44,13 +47,9 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(name = "password_hash", length = 60, nullable = false)
     private String password;
 
-    @Size(max = 50)
-    @Column(name = "first_name", length = 50)
-    private String firstName;
-
-    @Size(max = 50)
-    @Column(name = "last_name", length = 50)
-    private String lastName;
+    @Size(max = 60)
+    @Column(name = "full_name", length = 50)
+    private String fullName;
 
     @Email
     @Size(min = 5, max = 254)
@@ -61,38 +60,34 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(nullable = false)
     private boolean activated = false;
 
-    @Size(min = 2, max = 10)
-    @Column(name = "lang_key", length = 10)
-    private String langKey;
-
     @Size(max = 256)
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
-    @Size(max = 20)
-    @Column(name = "activation_key", length = 20)
-    @JsonIgnore
-    private String activationKey;
+    @Column(name = "oranization", length = 128)
+    private String organization;
 
-    @Size(max = 20)
-    @Column(name = "reset_key", length = 20)
-    @JsonIgnore
-    private String resetKey;
+    @Column(name = "expiration_date")
+    private Date expirationDate;
 
-    @Column(name = "reset_date")
-    private Instant resetDate = null;
+    @Column(name = "expired")
+    private boolean expired = false;
+
+    @Size(min = 9, max = 9)
+    @Column(name = "passport", length = 9)
+    private String passport;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "jhi_user_authority",
+        name = "user_authority",
         joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
         inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
     )
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -105,7 +100,6 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
         return login;
     }
 
-    // Lowercase the login before saving it in database
     public void setLogin(String login) {
         this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
@@ -118,20 +112,12 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -142,14 +128,6 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
         this.email = email;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public boolean isActivated() {
         return activated;
     }
@@ -158,36 +136,52 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
         this.activated = activated;
     }
 
-    public String getActivationKey() {
-        return activationKey;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setActivationKey(String activationKey) {
-        this.activationKey = activationKey;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getResetKey() {
-        return resetKey;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setResetKey(String resetKey) {
-        this.resetKey = resetKey;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
-    public Instant getResetDate() {
-        return resetDate;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setResetDate(Instant resetDate) {
-        this.resetDate = resetDate;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
-    public String getLangKey() {
-        return langKey;
+    public boolean isExpired() {
+        return expired;
     }
 
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
+    public String getPassport() {
+        return passport;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Set<Authority> getAuthorities() {
@@ -215,18 +209,22 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "User{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated='" + activated + '\'' +
-            ", langKey='" + langKey + '\'' +
-            ", activationKey='" + activationKey + '\'' +
-            "}";
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", activated=" + activated +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", organization='" + organization + '\'' +
+                ", expirationDate=" + expirationDate +
+                ", expired=" + expired +
+                ", passport='" + passport + '\'' +
+                ", deleted=" + deleted +
+                ", authorities=" + authorities +
+                '}';
     }
 }
