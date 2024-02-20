@@ -14,7 +14,7 @@ spring:
     open-in-view: off
 web:
   cors:
-    allowed-origins: 'http://localhost:3000,http://localhost:8080,http://localhost:8090,http://localhost:9595'
+    allowed-origins: 'http://localhost:3000,http://localhost:8080,http://localhost:8090,http://localhost:9595,https://base-mia.vercel.app/,https://base-mia.vercel.app'
     allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count'
