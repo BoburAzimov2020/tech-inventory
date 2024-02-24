@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.api.annotations.ParameterObject;
@@ -30,6 +32,7 @@ import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api/akumulators")
+@SecurityRequirement(name = "bearerAuth")
 public class AkumulatorResource {
 
     private final Logger log = LoggerFactory.getLogger(AkumulatorResource.class);

@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,7 @@ import org.springdoc.api.annotations.ParameterObject;
  * REST controller for managing {@link uz.dynamic.techinventory.domain.Camera}.
  */
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/api/cameras")
 public class CameraResource {
 

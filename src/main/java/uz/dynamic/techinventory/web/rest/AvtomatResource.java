@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +33,7 @@ import org.springdoc.api.annotations.ParameterObject;
  * REST controller for managing {@link uz.dynamic.techinventory.domain.Avtomat}.
  */
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/api/avtomats")
 public class AvtomatResource {
 
