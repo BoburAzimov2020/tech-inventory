@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tech-inventory
+    url: jdbc:postgresql://localhost:5432/tech
     username: admin
     password: q7111
   servlet:
