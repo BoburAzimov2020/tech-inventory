@@ -70,6 +70,12 @@ public class ObjectTasnifiServiceImpl implements ObjectTasnifiService {
     }
 
     @Override
+    public Page<ObjectTasnifiDTO> findAllByObjectTasnifiTuri(Pageable pageable, Long objectTasnifiTuriId) {
+        log.debug("Request to get all ObjectTasnifis");
+        return objectTasnifiRepository.findAllByBjectTasnifiTuriId(pageable, objectTasnifiTuriId).map(objectTasnifiMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<ObjectTasnifiDTO> findOne(Long id) {
         log.debug("Request to get ObjectTasnifi : {}", id);

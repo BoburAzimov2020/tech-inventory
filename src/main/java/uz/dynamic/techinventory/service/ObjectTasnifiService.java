@@ -41,6 +41,8 @@ public interface ObjectTasnifiService {
      */
     Page<ObjectTasnifiDTO> findAll(Pageable pageable);
 
+    Page<ObjectTasnifiDTO> findAllByObjectTasnifiTuri(Pageable pageable, Long objectTasnifiTuriId);
+
     /**
      * Get the "id" objectTasnifi.
      *

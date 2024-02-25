@@ -84,13 +84,10 @@ public class ObjectTasnifiTuriResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated objectTasnifiTuriDTO,
      * or with status {@code 400 (Bad Request)} if the objectTasnifiTuriDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the objectTasnifiTuriDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<ObjectTasnifiTuriDTO> updateObjectTasnifiTuri(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody ObjectTasnifiTuriDTO objectTasnifiTuriDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ObjectTasnifiTuriDTO objectTasnifiTuriDTO) {
         log.debug("REST request to update ObjectTasnifiTuri : {}, {}", id, objectTasnifiTuriDTO);
         if (objectTasnifiTuriDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -119,13 +116,10 @@ public class ObjectTasnifiTuriResource {
      * or with status {@code 400 (Bad Request)} if the objectTasnifiTuriDTO is not valid,
      * or with status {@code 404 (Not Found)} if the objectTasnifiTuriDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the objectTasnifiTuriDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ObjectTasnifiTuriDTO> partialUpdateObjectTasnifiTuri(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody ObjectTasnifiTuriDTO objectTasnifiTuriDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ObjectTasnifiTuriDTO objectTasnifiTuriDTO) {
         log.debug("REST request to partial update ObjectTasnifiTuri partially : {}, {}", id, objectTasnifiTuriDTO);
         if (objectTasnifiTuriDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -156,6 +150,21 @@ public class ObjectTasnifiTuriResource {
     public ResponseEntity<List<ObjectTasnifiTuriDTO>> getAllObjectTasnifiTuris(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of ObjectTasnifiTuris");
         Page<ObjectTasnifiTuriDTO> page = objectTasnifiTuriService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /object-tasnifi-turis/:districtId} : get all the objectTasnifiTuris by district.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of objectTasnifiTuris in body.
+     */
+    @GetMapping("/district/{districtId}")
+    public ResponseEntity<List<ObjectTasnifiTuriDTO>> getAllByDistrict(@ParameterObject Pageable pageable,
+                                                                       @PathVariable("districtId") Long districtId) {
+        log.debug("REST request to get a page of ObjectTasnifiTuris by District ID: {}", districtId);
+        Page<ObjectTasnifiTuriDTO> page = objectTasnifiTuriService.findAllByDistrict(pageable, districtId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

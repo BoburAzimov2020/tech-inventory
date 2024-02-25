@@ -80,13 +80,10 @@ public class CameraTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated cameraTypeDTO,
      * or with status {@code 400 (Bad Request)} if the cameraTypeDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the cameraTypeDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<CameraTypeDTO> updateCameraType(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody CameraTypeDTO cameraTypeDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody CameraTypeDTO cameraTypeDTO) {
         log.debug("REST request to update CameraType : {}, {}", id, cameraTypeDTO);
         if (cameraTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class CameraTypeResource {
      * or with status {@code 400 (Bad Request)} if the cameraTypeDTO is not valid,
      * or with status {@code 404 (Not Found)} if the cameraTypeDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the cameraTypeDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CameraTypeDTO> partialUpdateCameraType(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody CameraTypeDTO cameraTypeDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody CameraTypeDTO cameraTypeDTO) {
         log.debug("REST request to partial update CameraType partially : {}, {}", id, cameraTypeDTO);
         if (cameraTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class CameraTypeResource {
     public ResponseEntity<List<CameraTypeDTO>> getAllCameraTypes(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of CameraTypes");
         Page<CameraTypeDTO> page = cameraTypeService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /camera-types/obyekt/:obyektId} : get all the cameraTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cameraTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<CameraTypeDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                                 @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of CameraTypes");
+        Page<CameraTypeDTO> page = cameraTypeService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

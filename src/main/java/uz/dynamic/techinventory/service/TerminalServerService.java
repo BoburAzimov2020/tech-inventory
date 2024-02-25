@@ -41,6 +41,8 @@ public interface TerminalServerService {
      */
     Page<TerminalServerDTO> findAll(Pageable pageable);
 
+    Page<TerminalServerDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" terminalServer.
      *

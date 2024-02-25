@@ -41,6 +41,8 @@ public interface ObyektService {
      */
     Page<ObyektDTO> findAll(Pageable pageable);
 
+    Page<ObyektDTO> findAllByBuyurtmaRaqamId(Pageable pageable, Long buyurtmaRaqamId);
+
     /**
      * Get the "id" obyekt.
      *

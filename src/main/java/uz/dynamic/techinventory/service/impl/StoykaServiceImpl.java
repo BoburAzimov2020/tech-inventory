@@ -70,6 +70,12 @@ public class StoykaServiceImpl implements StoykaService {
     }
 
     @Override
+    public Page<StoykaDTO> findAllByStoykaType(Pageable pageable, Long stoykaTypeId) {
+        log.debug("Request to get all Stoykas");
+        return stoykaRepository.findAllByStoykaTypeId(pageable, stoykaTypeId).map(stoykaMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<StoykaDTO> findOne(Long id) {
         log.debug("Request to get Stoyka : {}", id);

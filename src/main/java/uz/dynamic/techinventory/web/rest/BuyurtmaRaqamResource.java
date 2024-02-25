@@ -78,13 +78,10 @@ public class BuyurtmaRaqamResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated buyurtmaRaqamDTO,
      * or with status {@code 400 (Bad Request)} if the buyurtmaRaqamDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the buyurtmaRaqamDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<BuyurtmaRaqamDTO> updateBuyurtmaRaqam(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody BuyurtmaRaqamDTO buyurtmaRaqamDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @RequestBody BuyurtmaRaqamDTO buyurtmaRaqamDTO) {
         log.debug("REST request to update BuyurtmaRaqam : {}, {}", id, buyurtmaRaqamDTO);
         if (buyurtmaRaqamDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -113,13 +110,10 @@ public class BuyurtmaRaqamResource {
      * or with status {@code 400 (Bad Request)} if the buyurtmaRaqamDTO is not valid,
      * or with status {@code 404 (Not Found)} if the buyurtmaRaqamDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the buyurtmaRaqamDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<BuyurtmaRaqamDTO> partialUpdateBuyurtmaRaqam(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody BuyurtmaRaqamDTO buyurtmaRaqamDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @RequestBody BuyurtmaRaqamDTO buyurtmaRaqamDTO) {
         log.debug("REST request to partial update BuyurtmaRaqam partially : {}, {}", id, buyurtmaRaqamDTO);
         if (buyurtmaRaqamDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -150,6 +144,21 @@ public class BuyurtmaRaqamResource {
     public ResponseEntity<List<BuyurtmaRaqamDTO>> getAllBuyurtmaRaqams(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of BuyurtmaRaqams");
         Page<BuyurtmaRaqamDTO> page = buyurtmaRaqamService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /buyurtma-raqams/loyiha/:loyihaId} : get all the buyurtmaRaqams.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of buyurtmaRaqams in body.
+     */
+    @GetMapping("/loyiha/{loyihaId}")
+    public ResponseEntity<List<BuyurtmaRaqamDTO>> getAllByLoyiha(@ParameterObject Pageable pageable,
+                                                                       @PathVariable("loyihaId") Long loyihaId) {
+        log.debug("REST request to get a page of BuyurtmaRaqams");
+        Page<BuyurtmaRaqamDTO> page = buyurtmaRaqamService.findAllByLoyiha(pageable, loyihaId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -1,5 +1,7 @@
 package uz.dynamic.techinventory.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import uz.dynamic.techinventory.domain.Swich;
@@ -9,4 +11,8 @@ import uz.dynamic.techinventory.domain.Swich;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SwichRepository extends JpaRepository<Swich, Long> {}
+public interface SwichRepository extends JpaRepository<Swich, Long> {
+
+    Page<Swich> findAllBySwichTypeId(Pageable pageable, Long swichTypeId);
+
+}

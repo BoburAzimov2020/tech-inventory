@@ -41,6 +41,8 @@ public interface CabelTypeService {
      */
     Page<CabelTypeDTO> findAll(Pageable pageable);
 
+    Page<CabelTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" cabelType.
      *

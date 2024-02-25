@@ -41,6 +41,8 @@ public interface UpsService {
      */
     Page<UpsDTO> findAll(Pageable pageable);
 
+    Page<UpsDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" ups.
      *

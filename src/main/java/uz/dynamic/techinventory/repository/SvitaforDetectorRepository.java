@@ -1,5 +1,7 @@
 package uz.dynamic.techinventory.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import uz.dynamic.techinventory.domain.SvitaforDetector;
@@ -9,4 +11,8 @@ import uz.dynamic.techinventory.domain.SvitaforDetector;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SvitaforDetectorRepository extends JpaRepository<SvitaforDetector, Long> {}
+public interface SvitaforDetectorRepository extends JpaRepository<SvitaforDetector, Long> {
+
+    Page<SvitaforDetector> findAllByObyektId(Pageable pageable, Long obyektId);
+
+}

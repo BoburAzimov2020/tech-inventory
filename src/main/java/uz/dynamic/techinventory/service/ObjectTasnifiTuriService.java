@@ -55,4 +55,6 @@ public interface ObjectTasnifiTuriService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<ObjectTasnifiTuriDTO> findAllByDistrict(Pageable pageable, Long districtId);
 }

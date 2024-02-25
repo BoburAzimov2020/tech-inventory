@@ -70,6 +70,12 @@ public class ProjectorTypeServiceImpl implements ProjectorTypeService {
     }
 
     @Override
+    public Page<ProjectorTypeDTO> findAllByOByekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all ProjectorTypes");
+        return projectorTypeRepository.findAllByObyektId(pageable, obyektId).map(projectorTypeMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<ProjectorTypeDTO> findOne(Long id) {
         log.debug("Request to get ProjectorType : {}", id);

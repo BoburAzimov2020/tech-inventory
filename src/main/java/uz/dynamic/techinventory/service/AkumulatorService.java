@@ -41,6 +41,8 @@ public interface AkumulatorService {
      */
     Page<AkumulatorDTO> findAll(Pageable pageable);
 
+    Page<AkumulatorDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" akumulator.
      *

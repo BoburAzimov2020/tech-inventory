@@ -55,4 +55,6 @@ public interface DistrictService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<DistrictDTO> findAllByRegionId(Pageable pageable, Long regionId);
 }

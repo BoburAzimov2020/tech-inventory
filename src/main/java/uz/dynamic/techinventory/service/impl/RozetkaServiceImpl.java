@@ -70,6 +70,12 @@ public class RozetkaServiceImpl implements RozetkaService {
     }
 
     @Override
+    public Page<RozetkaDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all Rozetkas");
+        return rozetkaRepository.findAllByObyektId(pageable, obyektId).map(rozetkaMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<RozetkaDTO> findOne(Long id) {
         log.debug("Request to get Rozetka : {}", id);

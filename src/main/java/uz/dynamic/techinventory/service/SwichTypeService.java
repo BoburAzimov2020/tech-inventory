@@ -41,6 +41,8 @@ public interface SwichTypeService {
      */
     Page<SwichTypeDTO> findAll(Pageable pageable);
 
+    Page<SwichTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" swichType.
      *

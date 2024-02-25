@@ -70,6 +70,12 @@ public class AvtomatServiceImpl implements AvtomatService {
     }
 
     @Override
+    public Page<AvtomatDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all Avtomats");
+        return avtomatRepository.findAllByObyektId(pageable, obyektId).map(avtomatMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<AvtomatDTO> findOne(Long id) {
         log.debug("Request to get Avtomat : {}", id);

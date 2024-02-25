@@ -1,5 +1,7 @@
 package uz.dynamic.techinventory.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import uz.dynamic.techinventory.domain.Projector;
@@ -9,4 +11,8 @@ import uz.dynamic.techinventory.domain.Projector;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ProjectorRepository extends JpaRepository<Projector, Long> {}
+public interface ProjectorRepository extends JpaRepository<Projector, Long> {
+
+    Page<Projector> findAllByProjectorTypeId(Pageable pageable, Long projectorTypeId);
+
+}

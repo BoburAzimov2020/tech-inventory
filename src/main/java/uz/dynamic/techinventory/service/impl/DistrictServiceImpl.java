@@ -81,4 +81,10 @@ public class DistrictServiceImpl implements DistrictService {
         log.debug("Request to delete District : {}", id);
         districtRepository.deleteById(id);
     }
+
+    @Override
+    public Page<DistrictDTO> findAllByRegionId(Pageable pageable, Long regionId) {
+        log.debug("Request to get all Districts by Region ID: {}", regionId);
+        return districtRepository.findAllByRegionId(pageable, regionId).map(districtMapper::toDto);
+    }
 }

@@ -70,6 +70,12 @@ public class StabilizatorServiceImpl implements StabilizatorService {
     }
 
     @Override
+    public Page<StabilizatorDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all Stabilizators");
+        return stabilizatorRepository.findAllByObyektId(pageable, obyektId).map(stabilizatorMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<StabilizatorDTO> findOne(Long id) {
         log.debug("Request to get Stabilizator : {}", id);

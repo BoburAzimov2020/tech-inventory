@@ -70,6 +70,12 @@ public class SwichTypeServiceImpl implements SwichTypeService {
     }
 
     @Override
+    public Page<SwichTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all SwichTypes");
+        return swichTypeRepository.findAllByObyektId(pageable, obyektId).map(swichTypeMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<SwichTypeDTO> findOne(Long id) {
         log.debug("Request to get SwichType : {}", id);

@@ -80,13 +80,10 @@ public class LoyihaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated loyihaDTO,
      * or with status {@code 400 (Bad Request)} if the loyihaDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the loyihaDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<LoyihaDTO> updateLoyiha(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody LoyihaDTO loyihaDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody LoyihaDTO loyihaDTO) {
         log.debug("REST request to update Loyiha : {}, {}", id, loyihaDTO);
         if (loyihaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class LoyihaResource {
      * or with status {@code 400 (Bad Request)} if the loyihaDTO is not valid,
      * or with status {@code 404 (Not Found)} if the loyihaDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the loyihaDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<LoyihaDTO> partialUpdateLoyiha(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody LoyihaDTO loyihaDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody LoyihaDTO loyihaDTO) {
         log.debug("REST request to partial update Loyiha partially : {}, {}", id, loyihaDTO);
         if (loyihaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class LoyihaResource {
     public ResponseEntity<List<LoyihaDTO>> getAllLoyihas(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Loyihas");
         Page<LoyihaDTO> page = loyihaService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /loyihas/objectTasnifi/:objectTasnifiId} : get all the loyihas.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of loyihas in body.
+     */
+    @GetMapping("/objectTasnifi/{objectTasnifiId}")
+    public ResponseEntity<List<LoyihaDTO>> getAllByObjectTasnifi(@ParameterObject Pageable pageable,
+                                                                 @PathVariable("objectTasnifiId") Long objectTasnifiId) {
+        log.debug("REST request to get a page of Loyihas");
+        Page<LoyihaDTO> page = loyihaService.findAllByObjectTasnifi(pageable, objectTasnifiId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

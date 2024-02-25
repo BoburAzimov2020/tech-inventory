@@ -41,6 +41,8 @@ public interface ShelfTypeService {
      */
     Page<ShelfTypeDTO> findAll(Pageable pageable);
 
+    Page<ShelfTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" shelfType.
      *

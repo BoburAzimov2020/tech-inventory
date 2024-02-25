@@ -79,13 +79,10 @@ public class AkumulatorResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated akumulatorDTO,
      * or with status {@code 400 (Bad Request)} if the akumulatorDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the akumulatorDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<AkumulatorDTO> updateAkumulator(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody AkumulatorDTO akumulatorDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody AkumulatorDTO akumulatorDTO) {
         log.debug("REST request to update Akumulator : {}, {}", id, akumulatorDTO);
         if (akumulatorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -114,13 +111,10 @@ public class AkumulatorResource {
      * or with status {@code 400 (Bad Request)} if the akumulatorDTO is not valid,
      * or with status {@code 404 (Not Found)} if the akumulatorDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the akumulatorDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<AkumulatorDTO> partialUpdateAkumulator(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody AkumulatorDTO akumulatorDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody AkumulatorDTO akumulatorDTO) {
         log.debug("REST request to partial update Akumulator partially : {}, {}", id, akumulatorDTO);
         if (akumulatorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -151,6 +145,21 @@ public class AkumulatorResource {
     public ResponseEntity<List<AkumulatorDTO>> getAllAkumulators(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Akumulators");
         Page<AkumulatorDTO> page = akumulatorService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /akumulators/obyekt/:obyektId} : get all the akumulators.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of akumulators in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<AkumulatorDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                              @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Akumulators");
+        Page<AkumulatorDTO> page = akumulatorService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

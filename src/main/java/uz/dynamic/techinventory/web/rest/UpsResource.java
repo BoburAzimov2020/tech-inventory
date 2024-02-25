@@ -67,24 +67,24 @@ public class UpsResource {
         }
         UpsDTO result = upsService.save(upsDTO);
         return ResponseEntity
-            .created(new URI("/api/ups/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/ups/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /ups/:id} : Updates an existing ups.
      *
-     * @param id the id of the upsDTO to save.
+     * @param id     the id of the upsDTO to save.
      * @param upsDTO the upsDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated upsDTO,
      * or with status {@code 400 (Bad Request)} if the upsDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the upsDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<UpsDTO> updateUps(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody UpsDTO upsDTO)
-        throws URISyntaxException {
+    public ResponseEntity<UpsDTO> updateUps(@PathVariable(value = "id", required = false) final Long id,
+                                            @Valid @RequestBody UpsDTO upsDTO) {
         log.debug("REST request to update Ups : {}, {}", id, upsDTO);
         if (upsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -99,27 +99,25 @@ public class UpsResource {
 
         UpsDTO result = upsService.update(upsDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, upsDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            upsDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /ups/:id} : Partial updates given fields of an existing ups, field will ignore if it is null
      *
-     * @param id the id of the upsDTO to save.
+     * @param id     the id of the upsDTO to save.
      * @param upsDTO the upsDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated upsDTO,
      * or with status {@code 400 (Bad Request)} if the upsDTO is not valid,
      * or with status {@code 404 (Not Found)} if the upsDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the upsDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<UpsDTO> partialUpdateUps(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody UpsDTO upsDTO
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody UpsDTO upsDTO) {
         log.debug("REST request to partial update Ups partially : {}, {}", id, upsDTO);
         if (upsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -135,8 +133,8 @@ public class UpsResource {
         Optional<UpsDTO> result = upsService.partialUpdate(upsDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, upsDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, upsDTO.getId().toString())
         );
     }
 
@@ -150,7 +148,24 @@ public class UpsResource {
     public ResponseEntity<List<UpsDTO>> getAllUps(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Ups");
         Page<UpsDTO> page = upsService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /ups/obyekt/:obyektId} : get all the ups.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of ups in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<UpsDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                       @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Ups");
+        Page<UpsDTO> page = upsService.findAllByObyekt(pageable, obyektId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -178,8 +193,8 @@ public class UpsResource {
         log.debug("REST request to delete Ups : {}", id);
         upsService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

@@ -70,6 +70,12 @@ public class BuyurtmaRaqamServiceImpl implements BuyurtmaRaqamService {
     }
 
     @Override
+    public Page<BuyurtmaRaqamDTO> findAllByLoyiha(Pageable pageable, Long loyihaId) {
+        log.debug("Request to get all BuyurtmaRaqams");
+        return buyurtmaRaqamRepository.findAllByLoyihaId(pageable, loyihaId).map(buyurtmaRaqamMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<BuyurtmaRaqamDTO> findOne(Long id) {
         log.debug("Request to get BuyurtmaRaqam : {}", id);

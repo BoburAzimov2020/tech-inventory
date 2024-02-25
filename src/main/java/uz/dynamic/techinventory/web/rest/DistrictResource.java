@@ -79,13 +79,11 @@ public class DistrictResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated districtDTO,
      * or with status {@code 400 (Bad Request)} if the districtDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the districtDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<DistrictDTO> updateDistrict(
         @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody DistrictDTO districtDTO
-    ) throws URISyntaxException {
+        @Valid @RequestBody DistrictDTO districtDTO) {
         log.debug("REST request to update District : {}, {}", id, districtDTO);
         if (districtDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -114,13 +112,11 @@ public class DistrictResource {
      * or with status {@code 400 (Bad Request)} if the districtDTO is not valid,
      * or with status {@code 404 (Not Found)} if the districtDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the districtDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<DistrictDTO> partialUpdateDistrict(
         @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody DistrictDTO districtDTO
-    ) throws URISyntaxException {
+        @NotNull @RequestBody DistrictDTO districtDTO) {
         log.debug("REST request to partial update District partially : {}, {}", id, districtDTO);
         if (districtDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -151,6 +147,21 @@ public class DistrictResource {
     public ResponseEntity<List<DistrictDTO>> getAllDistricts(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Districts");
         Page<DistrictDTO> page = districtService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /districts/:regionId} : get all the districts by region id.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of districts in body.
+     */
+    @GetMapping("/region/{regionId}")
+    public ResponseEntity<List<DistrictDTO>> getAllByRegion(@ParameterObject Pageable pageable,
+                                                            @PathVariable("regionId") Long regionId) {
+        log.debug("REST request to get a page of Districts by Region ID: {}", regionId);
+        Page<DistrictDTO> page = districtService.findAllByRegionId(pageable, regionId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

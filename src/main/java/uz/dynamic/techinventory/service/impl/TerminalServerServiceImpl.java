@@ -70,6 +70,12 @@ public class TerminalServerServiceImpl implements TerminalServerService {
     }
 
     @Override
+    public Page<TerminalServerDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all TerminalServers");
+        return terminalServerRepository.findAllByObyektId(pageable, obyektId).map(terminalServerMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<TerminalServerDTO> findOne(Long id) {
         log.debug("Request to get TerminalServer : {}", id);

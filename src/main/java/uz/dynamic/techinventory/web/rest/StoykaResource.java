@@ -80,13 +80,10 @@ public class StoykaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stoykaDTO,
      * or with status {@code 400 (Bad Request)} if the stoykaDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the stoykaDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<StoykaDTO> updateStoyka(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody StoykaDTO stoykaDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody StoykaDTO stoykaDTO) {
         log.debug("REST request to update Stoyka : {}, {}", id, stoykaDTO);
         if (stoykaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class StoykaResource {
      * or with status {@code 400 (Bad Request)} if the stoykaDTO is not valid,
      * or with status {@code 404 (Not Found)} if the stoykaDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the stoykaDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<StoykaDTO> partialUpdateStoyka(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody StoykaDTO stoykaDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody StoykaDTO stoykaDTO) {
         log.debug("REST request to partial update Stoyka partially : {}, {}", id, stoykaDTO);
         if (stoykaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class StoykaResource {
     public ResponseEntity<List<StoykaDTO>> getAllStoykas(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Stoykas");
         Page<StoykaDTO> page = stoykaService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /stoykas/type/:typeId} : get all the stoykas.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stoykas in body.
+     */
+    @GetMapping("/type/{typeId}")
+    public ResponseEntity<List<StoykaDTO>> getAllByType(@ParameterObject Pageable pageable,
+                                                        @PathVariable("typeId") Long typeId) {
+        log.debug("REST request to get a page of Stoykas");
+        Page<StoykaDTO> page = stoykaService.findAllByStoykaType(pageable, typeId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

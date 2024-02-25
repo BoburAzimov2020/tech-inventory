@@ -70,6 +70,12 @@ public class UpsServiceImpl implements UpsService {
     }
 
     @Override
+    public Page<UpsDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all Ups");
+        return upsRepository.findAllByObyektId(pageable, obyektId).map(upsMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<UpsDTO> findOne(Long id) {
         log.debug("Request to get Ups : {}", id);

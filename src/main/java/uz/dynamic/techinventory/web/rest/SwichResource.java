@@ -67,26 +67,24 @@ public class SwichResource {
         }
         SwichDTO result = swichService.save(swichDTO);
         return ResponseEntity
-            .created(new URI("/api/swiches/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/swiches/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /swiches/:id} : Updates an existing swich.
      *
-     * @param id the id of the swichDTO to save.
+     * @param id       the id of the swichDTO to save.
      * @param swichDTO the swichDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated swichDTO,
      * or with status {@code 400 (Bad Request)} if the swichDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the swichDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<SwichDTO> updateSwich(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody SwichDTO swichDTO
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody SwichDTO swichDTO) {
         log.debug("REST request to update Swich : {}, {}", id, swichDTO);
         if (swichDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -101,27 +99,25 @@ public class SwichResource {
 
         SwichDTO result = swichService.update(swichDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, swichDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            swichDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /swiches/:id} : Partial updates given fields of an existing swich, field will ignore if it is null
      *
-     * @param id the id of the swichDTO to save.
+     * @param id       the id of the swichDTO to save.
      * @param swichDTO the swichDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated swichDTO,
      * or with status {@code 400 (Bad Request)} if the swichDTO is not valid,
      * or with status {@code 404 (Not Found)} if the swichDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the swichDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<SwichDTO> partialUpdateSwich(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody SwichDTO swichDTO
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody SwichDTO swichDTO) {
         log.debug("REST request to partial update Swich partially : {}, {}", id, swichDTO);
         if (swichDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -137,8 +133,8 @@ public class SwichResource {
         Optional<SwichDTO> result = swichService.partialUpdate(swichDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, swichDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, swichDTO.getId().toString())
         );
     }
 
@@ -152,7 +148,24 @@ public class SwichResource {
     public ResponseEntity<List<SwichDTO>> getAllSwiches(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Swiches");
         Page<SwichDTO> page = swichService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /swiches/type/:typeId} : get all the swiches.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of swiches in body.
+     */
+    @GetMapping("/type/{typeId}")
+    public ResponseEntity<List<SwichDTO>> getAllSwiches(@ParameterObject Pageable pageable,
+                                                        @PathVariable("typeId") Long typeId) {
+        log.debug("REST request to get a page of Swiches");
+        Page<SwichDTO> page = swichService.findAllBySwitchType(pageable, typeId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -180,8 +193,8 @@ public class SwichResource {
         log.debug("REST request to delete Swich : {}", id);
         swichService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

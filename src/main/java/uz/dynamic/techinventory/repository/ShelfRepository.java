@@ -1,5 +1,7 @@
 package uz.dynamic.techinventory.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import uz.dynamic.techinventory.domain.Shelf;
@@ -9,4 +11,8 @@ import uz.dynamic.techinventory.domain.Shelf;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ShelfRepository extends JpaRepository<Shelf, Long> {}
+public interface ShelfRepository extends JpaRepository<Shelf, Long> {
+
+    Page<Shelf> findAllByShelfTypeId(Pageable pageable, Long shelfTypeId);
+
+}

@@ -41,6 +41,8 @@ public interface ProjectorTypeService {
      */
     Page<ProjectorTypeDTO> findAll(Pageable pageable);
 
+    Page<ProjectorTypeDTO> findAllByOByekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" projectorType.
      *

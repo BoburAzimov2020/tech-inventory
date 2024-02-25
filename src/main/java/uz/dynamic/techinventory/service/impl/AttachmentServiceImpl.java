@@ -70,6 +70,12 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
+    public Page<AttachmentDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all Attachments");
+        return attachmentRepository.findAllByObyektId(pageable, obyektId).map(attachmentMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<AttachmentDTO> findOne(Long id) {
         log.debug("Request to get Attachment : {}", id);

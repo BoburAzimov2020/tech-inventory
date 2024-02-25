@@ -80,13 +80,10 @@ public class SwichTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated swichTypeDTO,
      * or with status {@code 400 (Bad Request)} if the swichTypeDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the swichTypeDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<SwichTypeDTO> updateSwichType(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody SwichTypeDTO swichTypeDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody SwichTypeDTO swichTypeDTO) {
         log.debug("REST request to update SwichType : {}, {}", id, swichTypeDTO);
         if (swichTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class SwichTypeResource {
      * or with status {@code 400 (Bad Request)} if the swichTypeDTO is not valid,
      * or with status {@code 404 (Not Found)} if the swichTypeDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the swichTypeDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<SwichTypeDTO> partialUpdateSwichType(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody SwichTypeDTO swichTypeDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody SwichTypeDTO swichTypeDTO) {
         log.debug("REST request to partial update SwichType partially : {}, {}", id, swichTypeDTO);
         if (swichTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class SwichTypeResource {
     public ResponseEntity<List<SwichTypeDTO>> getAllSwichTypes(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of SwichTypes");
         Page<SwichTypeDTO> page = swichTypeService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /swich-types/obyekt/:obyektId} : get all the swichTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of swichTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<SwichTypeDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                               @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of SwichTypes");
+        Page<SwichTypeDTO> page = swichTypeService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

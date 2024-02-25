@@ -81,13 +81,10 @@ public class StabilizatorResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stabilizatorDTO,
      * or with status {@code 400 (Bad Request)} if the stabilizatorDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the stabilizatorDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<StabilizatorDTO> updateStabilizator(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody StabilizatorDTO stabilizatorDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody StabilizatorDTO stabilizatorDTO) {
         log.debug("REST request to update Stabilizator : {}, {}", id, stabilizatorDTO);
         if (stabilizatorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -116,13 +113,10 @@ public class StabilizatorResource {
      * or with status {@code 400 (Bad Request)} if the stabilizatorDTO is not valid,
      * or with status {@code 404 (Not Found)} if the stabilizatorDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the stabilizatorDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<StabilizatorDTO> partialUpdateStabilizator(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody StabilizatorDTO stabilizatorDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody StabilizatorDTO stabilizatorDTO) {
         log.debug("REST request to partial update Stabilizator partially : {}, {}", id, stabilizatorDTO);
         if (stabilizatorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -153,6 +147,21 @@ public class StabilizatorResource {
     public ResponseEntity<List<StabilizatorDTO>> getAllStabilizators(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Stabilizators");
         Page<StabilizatorDTO> page = stabilizatorService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /stabilizators/obyekt/:obyektId} : get all the stabilizators.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stabilizators in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<StabilizatorDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                                     @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Stabilizators");
+        Page<StabilizatorDTO> page = stabilizatorService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

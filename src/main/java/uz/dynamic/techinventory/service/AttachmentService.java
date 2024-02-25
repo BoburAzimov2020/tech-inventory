@@ -41,6 +41,8 @@ public interface AttachmentService {
      */
     Page<AttachmentDTO> findAll(Pageable pageable);
 
+    Page<AttachmentDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" attachment.
      *

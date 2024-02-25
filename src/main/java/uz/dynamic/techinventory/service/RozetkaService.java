@@ -41,6 +41,8 @@ public interface RozetkaService {
      */
     Page<RozetkaDTO> findAll(Pageable pageable);
 
+    Page<RozetkaDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" rozetka.
      *

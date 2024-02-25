@@ -41,6 +41,8 @@ public interface StoykaService {
      */
     Page<StoykaDTO> findAll(Pageable pageable);
 
+    Page<StoykaDTO> findAllByStoykaType(Pageable pageable, Long stoykaTypeId);
+
     /**
      * Get the "id" stoyka.
      *

@@ -80,13 +80,10 @@ public class CabelResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated cabelDTO,
      * or with status {@code 400 (Bad Request)} if the cabelDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the cabelDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<CabelDTO> updateCabel(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody CabelDTO cabelDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody CabelDTO cabelDTO) {
         log.debug("REST request to update Cabel : {}, {}", id, cabelDTO);
         if (cabelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class CabelResource {
      * or with status {@code 400 (Bad Request)} if the cabelDTO is not valid,
      * or with status {@code 404 (Not Found)} if the cabelDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the cabelDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CabelDTO> partialUpdateCabel(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody CabelDTO cabelDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody CabelDTO cabelDTO) {
         log.debug("REST request to partial update Cabel partially : {}, {}", id, cabelDTO);
         if (cabelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class CabelResource {
     public ResponseEntity<List<CabelDTO>> getAllCabels(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Cabels");
         Page<CabelDTO> page = cabelService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /cabels/type/:typeId} : get all the cabels.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cabels in body.
+     */
+    @GetMapping("/type/{typeId}")
+    public ResponseEntity<List<CabelDTO>> getAllByType(@ParameterObject Pageable pageable,
+                                                       @PathVariable("typeId") Long typeId) {
+        log.debug("REST request to get a page of Cabels");
+        Page<CabelDTO> page = cabelService.findAllByCabelType(pageable, typeId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

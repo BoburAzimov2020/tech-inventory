@@ -80,13 +80,10 @@ public class ShelfResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated shelfDTO,
      * or with status {@code 400 (Bad Request)} if the shelfDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the shelfDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<ShelfDTO> updateShelf(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody ShelfDTO shelfDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ShelfDTO shelfDTO) {
         log.debug("REST request to update Shelf : {}, {}", id, shelfDTO);
         if (shelfDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class ShelfResource {
      * or with status {@code 400 (Bad Request)} if the shelfDTO is not valid,
      * or with status {@code 404 (Not Found)} if the shelfDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the shelfDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ShelfDTO> partialUpdateShelf(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody ShelfDTO shelfDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ShelfDTO shelfDTO) {
         log.debug("REST request to partial update Shelf partially : {}, {}", id, shelfDTO);
         if (shelfDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class ShelfResource {
     public ResponseEntity<List<ShelfDTO>> getAllShelves(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Shelves");
         Page<ShelfDTO> page = shelfService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /shelves/type/:typeId} : get all the shelves.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of shelves in body.
+     */
+    @GetMapping("/type/{typeId}")
+    public ResponseEntity<List<ShelfDTO>> getAllByType(@ParameterObject Pageable pageable,
+                                                        @PathVariable("typeId") Long typeId) {
+        log.debug("REST request to get a page of Shelves");
+        Page<ShelfDTO> page = shelfService.findAllByShelfType(pageable, typeId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

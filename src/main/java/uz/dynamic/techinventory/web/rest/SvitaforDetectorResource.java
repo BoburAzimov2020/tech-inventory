@@ -84,13 +84,10 @@ public class SvitaforDetectorResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated svitaforDetectorDTO,
      * or with status {@code 400 (Bad Request)} if the svitaforDetectorDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the svitaforDetectorDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<SvitaforDetectorDTO> updateSvitaforDetector(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody SvitaforDetectorDTO svitaforDetectorDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody SvitaforDetectorDTO svitaforDetectorDTO) {
         log.debug("REST request to update SvitaforDetector : {}, {}", id, svitaforDetectorDTO);
         if (svitaforDetectorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -119,13 +116,10 @@ public class SvitaforDetectorResource {
      * or with status {@code 400 (Bad Request)} if the svitaforDetectorDTO is not valid,
      * or with status {@code 404 (Not Found)} if the svitaforDetectorDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the svitaforDetectorDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<SvitaforDetectorDTO> partialUpdateSvitaforDetector(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody SvitaforDetectorDTO svitaforDetectorDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody SvitaforDetectorDTO svitaforDetectorDTO) {
         log.debug("REST request to partial update SvitaforDetector partially : {}, {}", id, svitaforDetectorDTO);
         if (svitaforDetectorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -156,6 +150,21 @@ public class SvitaforDetectorResource {
     public ResponseEntity<List<SvitaforDetectorDTO>> getAllSvitaforDetectors(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of SvitaforDetectors");
         Page<SvitaforDetectorDTO> page = svitaforDetectorService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /svitafor-detectors/obyekt/:obyektId} : get all the svitaforDetectors.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of svitaforDetectors in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<SvitaforDetectorDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                                    @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of SvitaforDetectors");
+        Page<SvitaforDetectorDTO> page = svitaforDetectorService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

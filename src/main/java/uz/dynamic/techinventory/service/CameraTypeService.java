@@ -41,6 +41,8 @@ public interface CameraTypeService {
      */
     Page<CameraTypeDTO> findAll(Pageable pageable);
 
+    Page<CameraTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" cameraType.
      *

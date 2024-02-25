@@ -1,5 +1,7 @@
 package uz.dynamic.techinventory.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import uz.dynamic.techinventory.domain.Camera;
@@ -9,4 +11,10 @@ import uz.dynamic.techinventory.domain.Camera;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CameraRepository extends JpaRepository<Camera, Long> {}
+public interface CameraRepository extends JpaRepository<Camera, Long> {
+
+    Page<Camera> findAllByCameraTypeId(Pageable pageable, Long cameraTypeId);
+
+    Page<Camera> findAllByCameraBrandId(Pageable pageable, Long cameraBrandId);
+
+}

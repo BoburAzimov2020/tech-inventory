@@ -70,6 +70,12 @@ public class CabelTypeServiceImpl implements CabelTypeService {
     }
 
     @Override
+    public Page<CabelTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all CabelTypes");
+        return cabelTypeRepository.findAllByObyektId(pageable, obyektId).map(cabelTypeMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<CabelTypeDTO> findOne(Long id) {
         log.debug("Request to get CabelType : {}", id);

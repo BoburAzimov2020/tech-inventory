@@ -1,5 +1,7 @@
 package uz.dynamic.techinventory.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import uz.dynamic.techinventory.domain.Akumulator;
@@ -9,4 +11,8 @@ import uz.dynamic.techinventory.domain.Akumulator;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AkumulatorRepository extends JpaRepository<Akumulator, Long> {}
+public interface AkumulatorRepository extends JpaRepository<Akumulator, Long> {
+
+    Page<Akumulator> findAllByObyektId(Pageable pageable, Long obyektId);
+
+}

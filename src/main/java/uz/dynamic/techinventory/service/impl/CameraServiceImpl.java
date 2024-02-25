@@ -70,6 +70,18 @@ public class CameraServiceImpl implements CameraService {
     }
 
     @Override
+    public Page<CameraDTO> findAllByCameraType(Pageable pageable, Long cameraTypeId) {
+        log.debug("Request to get all Cameras");
+        return cameraRepository.findAllByCameraTypeId(pageable, cameraTypeId).map(cameraMapper::toDto);
+    }
+
+    @Override
+    public Page<CameraDTO> findAllByCameraBrand(Pageable pageable, Long cameraBrandId) {
+        log.debug("Request to get all Cameras");
+        return cameraRepository.findAllByCameraBrandId(pageable, cameraBrandId).map(cameraMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<CameraDTO> findOne(Long id) {
         log.debug("Request to get Camera : {}", id);

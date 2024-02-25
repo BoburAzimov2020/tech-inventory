@@ -41,6 +41,8 @@ public interface AvtomatService {
      */
     Page<AvtomatDTO> findAll(Pageable pageable);
 
+    Page<AvtomatDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" avtomat.
      *

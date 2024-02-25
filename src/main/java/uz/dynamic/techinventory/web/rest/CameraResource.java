@@ -81,13 +81,10 @@ public class CameraResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated cameraDTO,
      * or with status {@code 400 (Bad Request)} if the cameraDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the cameraDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<CameraDTO> updateCamera(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody CameraDTO cameraDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody CameraDTO cameraDTO) {
         log.debug("REST request to update Camera : {}, {}", id, cameraDTO);
         if (cameraDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -116,13 +113,10 @@ public class CameraResource {
      * or with status {@code 400 (Bad Request)} if the cameraDTO is not valid,
      * or with status {@code 404 (Not Found)} if the cameraDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the cameraDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CameraDTO> partialUpdateCamera(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody CameraDTO cameraDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody CameraDTO cameraDTO) {
         log.debug("REST request to partial update Camera partially : {}, {}", id, cameraDTO);
         if (cameraDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -153,6 +147,36 @@ public class CameraResource {
     public ResponseEntity<List<CameraDTO>> getAllCameras(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Cameras");
         Page<CameraDTO> page = cameraService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /cameras/type/:typeId} : get all the cameras.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cameras in body.
+     */
+    @GetMapping("/type/{typeId}")
+    public ResponseEntity<List<CameraDTO>> getAllByType(@ParameterObject Pageable pageable,
+                                                        @PathVariable("typeId") Long typeId) {
+        log.debug("REST request to get a page of Cameras");
+        Page<CameraDTO> page = cameraService.findAllByCameraType(pageable, typeId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /cameras/brand/:brandId} : get all the cameras.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cameras in body.
+     */
+    @GetMapping("/brand/{brandId}")
+    public ResponseEntity<List<CameraDTO>> getAllByBrand(@ParameterObject Pageable pageable,
+                                                        @PathVariable("brandId") Long brandId) {
+        log.debug("REST request to get a page of Cameras");
+        Page<CameraDTO> page = cameraService.findAllByCameraBrand(pageable, brandId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

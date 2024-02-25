@@ -41,6 +41,8 @@ public interface BuyurtmaRaqamService {
      */
     Page<BuyurtmaRaqamDTO> findAll(Pageable pageable);
 
+    Page<BuyurtmaRaqamDTO> findAllByLoyiha(Pageable pageable, Long loyihaId);
+
     /**
      * Get the "id" buyurtmaRaqam.
      *

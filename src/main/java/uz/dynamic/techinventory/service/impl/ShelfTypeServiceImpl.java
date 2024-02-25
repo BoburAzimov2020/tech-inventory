@@ -70,6 +70,12 @@ public class ShelfTypeServiceImpl implements ShelfTypeService {
     }
 
     @Override
+    public Page<ShelfTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all ShelfTypes");
+        return shelfTypeRepository.findAllByObyektId(pageable, obyektId).map(shelfTypeMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<ShelfTypeDTO> findOne(Long id) {
         log.debug("Request to get ShelfType : {}", id);

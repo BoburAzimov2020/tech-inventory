@@ -81,13 +81,10 @@ public class TerminalServerResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated terminalServerDTO,
      * or with status {@code 400 (Bad Request)} if the terminalServerDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the terminalServerDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<TerminalServerDTO> updateTerminalServer(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody TerminalServerDTO terminalServerDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody TerminalServerDTO terminalServerDTO) {
         log.debug("REST request to update TerminalServer : {}, {}", id, terminalServerDTO);
         if (terminalServerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -116,13 +113,10 @@ public class TerminalServerResource {
      * or with status {@code 400 (Bad Request)} if the terminalServerDTO is not valid,
      * or with status {@code 404 (Not Found)} if the terminalServerDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the terminalServerDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<TerminalServerDTO> partialUpdateTerminalServer(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody TerminalServerDTO terminalServerDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody TerminalServerDTO terminalServerDTO) {
         log.debug("REST request to partial update TerminalServer partially : {}, {}", id, terminalServerDTO);
         if (terminalServerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -153,6 +147,21 @@ public class TerminalServerResource {
     public ResponseEntity<List<TerminalServerDTO>> getAllTerminalServers(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of TerminalServers");
         Page<TerminalServerDTO> page = terminalServerService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /terminal-servers/obyekt/:obyektId} : get all the terminalServers.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of terminalServers in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<TerminalServerDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                                  @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of TerminalServers");
+        Page<TerminalServerDTO> page = terminalServerService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

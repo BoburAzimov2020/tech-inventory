@@ -70,6 +70,12 @@ public class AkumulatorServiceImpl implements AkumulatorService {
     }
 
     @Override
+    public Page<AkumulatorDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all Akumulators");
+        return akumulatorRepository.findAllByObyektId(pageable, obyektId).map(akumulatorMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<AkumulatorDTO> findOne(Long id) {
         log.debug("Request to get Akumulator : {}", id);

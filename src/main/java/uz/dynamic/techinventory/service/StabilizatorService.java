@@ -41,6 +41,8 @@ public interface StabilizatorService {
      */
     Page<StabilizatorDTO> findAll(Pageable pageable);
 
+    Page<StabilizatorDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" stabilizator.
      *

@@ -80,13 +80,10 @@ public class ObyektResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated obyektDTO,
      * or with status {@code 400 (Bad Request)} if the obyektDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the obyektDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<ObyektDTO> updateObyekt(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody ObyektDTO obyektDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ObyektDTO obyektDTO) {
         log.debug("REST request to update Obyekt : {}, {}", id, obyektDTO);
         if (obyektDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class ObyektResource {
      * or with status {@code 400 (Bad Request)} if the obyektDTO is not valid,
      * or with status {@code 404 (Not Found)} if the obyektDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the obyektDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ObyektDTO> partialUpdateObyekt(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody ObyektDTO obyektDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ObyektDTO obyektDTO) {
         log.debug("REST request to partial update Obyekt partially : {}, {}", id, obyektDTO);
         if (obyektDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class ObyektResource {
     public ResponseEntity<List<ObyektDTO>> getAllObyekts(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Obyekts");
         Page<ObyektDTO> page = obyektService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /obyekts/buyurtmaRaqam/:buyurtmaRaqamId} : get all the obyekts.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of obyekts in body.
+     */
+    @GetMapping("/buyurtmaRaqam/{buyurtmaRaqamId}")
+    public ResponseEntity<List<ObyektDTO>> getAllByBuyurtmaRaqam(@ParameterObject Pageable pageable,
+                                                                 @PathVariable("buyurtmaRaqamId") Long buyurtmaRaqamId) {
+        log.debug("REST request to get a page of Obyekts");
+        Page<ObyektDTO> page = obyektService.findAllByBuyurtmaRaqamId(pageable, buyurtmaRaqamId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

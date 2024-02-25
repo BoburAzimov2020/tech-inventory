@@ -81,13 +81,10 @@ public class ProjectorTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated projectorTypeDTO,
      * or with status {@code 400 (Bad Request)} if the projectorTypeDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the projectorTypeDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<ProjectorTypeDTO> updateProjectorType(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody ProjectorTypeDTO projectorTypeDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ProjectorTypeDTO projectorTypeDTO) {
         log.debug("REST request to update ProjectorType : {}, {}", id, projectorTypeDTO);
         if (projectorTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -116,13 +113,10 @@ public class ProjectorTypeResource {
      * or with status {@code 400 (Bad Request)} if the projectorTypeDTO is not valid,
      * or with status {@code 404 (Not Found)} if the projectorTypeDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the projectorTypeDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ProjectorTypeDTO> partialUpdateProjectorType(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody ProjectorTypeDTO projectorTypeDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ProjectorTypeDTO projectorTypeDTO) {
         log.debug("REST request to partial update ProjectorType partially : {}, {}", id, projectorTypeDTO);
         if (projectorTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -153,6 +147,21 @@ public class ProjectorTypeResource {
     public ResponseEntity<List<ProjectorTypeDTO>> getAllProjectorTypes(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of ProjectorTypes");
         Page<ProjectorTypeDTO> page = projectorTypeService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /projector-types/obyekt/:obyektId} : get all the projectorTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectorTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<ProjectorTypeDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                                 @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of ProjectorTypes");
+        Page<ProjectorTypeDTO> page = projectorTypeService.findAllByOByekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

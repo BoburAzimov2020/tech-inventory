@@ -80,13 +80,10 @@ public class RozetkaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated rozetkaDTO,
      * or with status {@code 400 (Bad Request)} if the rozetkaDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the rozetkaDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<RozetkaDTO> updateRozetka(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody RozetkaDTO rozetkaDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody RozetkaDTO rozetkaDTO) {
         log.debug("REST request to update Rozetka : {}, {}", id, rozetkaDTO);
         if (rozetkaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,13 +112,10 @@ public class RozetkaResource {
      * or with status {@code 400 (Bad Request)} if the rozetkaDTO is not valid,
      * or with status {@code 404 (Not Found)} if the rozetkaDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the rozetkaDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<RozetkaDTO> partialUpdateRozetka(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody RozetkaDTO rozetkaDTO
-    ) throws URISyntaxException {
+        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody RozetkaDTO rozetkaDTO) {
         log.debug("REST request to partial update Rozetka partially : {}, {}", id, rozetkaDTO);
         if (rozetkaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -152,6 +146,21 @@ public class RozetkaResource {
     public ResponseEntity<List<RozetkaDTO>> getAllRozetkas(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Rozetkas");
         Page<RozetkaDTO> page = rozetkaService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /rozetkas/obyekt/:obyektId} : get all the rozetkas.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rozetkas in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<RozetkaDTO>> getAllRozetkas(@ParameterObject Pageable pageable,
+                                                           @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Rozetkas");
+        Page<RozetkaDTO> page = rozetkaService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

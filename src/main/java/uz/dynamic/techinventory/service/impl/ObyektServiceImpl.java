@@ -70,6 +70,12 @@ public class ObyektServiceImpl implements ObyektService {
     }
 
     @Override
+    public Page<ObyektDTO> findAllByBuyurtmaRaqamId(Pageable pageable, Long buyurtmaRaqamId) {
+        log.debug("Request to get all Obyekts");
+        return obyektRepository.findAllByBuyurtmaRaqamId(pageable, buyurtmaRaqamId).map(obyektMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<ObyektDTO> findOne(Long id) {
         log.debug("Request to get Obyekt : {}", id);

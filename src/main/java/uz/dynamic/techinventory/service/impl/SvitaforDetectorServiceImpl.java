@@ -73,6 +73,12 @@ public class SvitaforDetectorServiceImpl implements SvitaforDetectorService {
     }
 
     @Override
+    public Page<SvitaforDetectorDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all SvitaforDetectors");
+        return svitaforDetectorRepository.findAllByObyektId(pageable, obyektId).map(svitaforDetectorMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<SvitaforDetectorDTO> findOne(Long id) {
         log.debug("Request to get SvitaforDetector : {}", id);

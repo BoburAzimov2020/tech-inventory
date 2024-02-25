@@ -41,6 +41,8 @@ public interface SvitaforDetectorService {
      */
     Page<SvitaforDetectorDTO> findAll(Pageable pageable);
 
+    Page<SvitaforDetectorDTO> findAllByObyekt(Pageable pageable, Long obyektId);
+
     /**
      * Get the "id" svitaforDetector.
      *
