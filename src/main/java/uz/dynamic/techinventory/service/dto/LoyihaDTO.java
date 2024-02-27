@@ -17,8 +17,6 @@ public class LoyihaDTO implements Serializable {
     @Size(max = 128)
     private String name;
 
-    private ObjectTasnifiDTO objectTasnifi;
-
     public Long getId() {
         return id;
     }
@@ -33,14 +31,6 @@ public class LoyihaDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ObjectTasnifiDTO getObjectTasnifi() {
-        return objectTasnifi;
-    }
-
-    public void setObjectTasnifi(ObjectTasnifiDTO objectTasnifi) {
-        this.objectTasnifi = objectTasnifi;
     }
 
     @Override
@@ -70,7 +60,6 @@ public class LoyihaDTO implements Serializable {
         return "LoyihaDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", objectTasnifi=" + getObjectTasnifi() +
             "}";
     }
 }

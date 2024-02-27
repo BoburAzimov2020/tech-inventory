@@ -20,8 +20,6 @@ public class ObjectTasnifiTuriDTO implements Serializable {
     @Size(max = 128)
     private String name;
 
-    private DistrictDTO district;
-
     public Long getId() {
         return id;
     }
@@ -36,14 +34,6 @@ public class ObjectTasnifiTuriDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public DistrictDTO getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(DistrictDTO district) {
-        this.district = district;
     }
 
     @Override
@@ -73,7 +63,6 @@ public class ObjectTasnifiTuriDTO implements Serializable {
         return "ObjectTasnifiTuriDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", district=" + getDistrict() +
             "}";
     }
 }

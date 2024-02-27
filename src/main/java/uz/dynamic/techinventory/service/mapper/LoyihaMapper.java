@@ -11,7 +11,7 @@ import uz.dynamic.techinventory.service.dto.ObjectTasnifiDTO;
  */
 @Mapper(componentModel = "spring")
 public interface LoyihaMapper extends EntityMapper<LoyihaDTO, Loyiha> {
-    @Mapping(target = "objectTasnifi", source = "objectTasnifi", qualifiedByName = "objectTasnifiId")
+
     LoyihaDTO toDto(Loyiha s);
 
     @Named("objectTasnifiId")

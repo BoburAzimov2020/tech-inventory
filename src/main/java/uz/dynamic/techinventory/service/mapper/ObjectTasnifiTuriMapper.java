@@ -11,7 +11,7 @@ import uz.dynamic.techinventory.service.dto.ObjectTasnifiTuriDTO;
  */
 @Mapper(componentModel = "spring")
 public interface ObjectTasnifiTuriMapper extends EntityMapper<ObjectTasnifiTuriDTO, ObjectTasnifiTuri> {
-    @Mapping(target = "district", source = "district", qualifiedByName = "districtId")
+
     ObjectTasnifiTuriDTO toDto(ObjectTasnifiTuri s);
 
     @Named("districtId")
