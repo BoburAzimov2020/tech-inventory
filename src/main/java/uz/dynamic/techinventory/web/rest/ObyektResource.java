@@ -161,10 +161,17 @@ public class ObyektResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of obyekts in body.
      */
-    @PostMapping("/filter")
+    @GetMapping("/filter")
     public ResponseEntity<List<ObyektDTO>> getAllByFilter(@ParameterObject Pageable pageable,
-                                                          @RequestBody(required = false) ObyektFilterDTO obyektFilterDTO) {
+                                                          @RequestParam(value = "regionId", required = false) Long regionId,
+                                                          @RequestParam(value = "districtId", required = false) Long districtId,
+                                                          @RequestParam(value = "objectTasnifiId", required = false) Long objectTasnifiId,
+                                                          @RequestParam(value = "objectTasnifiTuriId", required = false) Long objectTasnifiTuriId,
+                                                          @RequestParam(value = "loyihaId", required = false) Long loyihaId,
+                                                          @RequestParam(value = "buyurtmaRaqamId", required = false) Long buyurtmaRaqamId) {
         log.debug("REST request to get a page of Obyekts");
+        ObyektFilterDTO obyektFilterDTO = new ObyektFilterDTO(regionId, districtId, objectTasnifiId,
+                                                              objectTasnifiTuriId, loyihaId, buyurtmaRaqamId);
         Page<ObyektDTO> page = obyektService.findAllByFilter(pageable, obyektFilterDTO);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
                 ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -201,11 +208,3 @@ public class ObyektResource {
     }
 
 }
-
-
-//    @PathVariable(value = "regionId", required = false) Long regionId,
-//    @PathVariable(value = "districtId", required = false) Long districtId,
-//    @PathVariable(value = "objectTasnifiId", required = false) Long objectTasnifiId,
-//    @PathVariable(value = "objectTasnifiTuriId", required = false) Long objectTasnifiTuriId,
-//    @PathVariable(value = "loyihaId", required = false) Long loyihaId,
-//    @PathVariable(value = "buyurtmaRaqamId", required = false) Long buyurtmaRaqamId
