@@ -84,11 +84,4 @@ public class ObjectTasnifiTuriServiceImpl implements ObjectTasnifiTuriService {
         log.debug("Request to delete ObjectTasnifiTuri : {}", id);
         objectTasnifiTuriRepository.deleteById(id);
     }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<ObjectTasnifiTuriDTO> findAllByDistrict(Pageable pageable, Long districtId) {
-        log.debug("Request to get all ObjectTasnifiTuris by District ID: {}", districtId);
-        return objectTasnifiTuriRepository.findAll(pageable).map(objectTasnifiTuriMapper::toDto);
-    }
 }

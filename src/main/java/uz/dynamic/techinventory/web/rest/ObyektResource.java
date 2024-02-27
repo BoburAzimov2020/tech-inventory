@@ -1,16 +1,9 @@
 package uz.dynamic.techinventory.web.rest;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,15 +11,22 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import uz.dynamic.techinventory.repository.ObyektRepository;
 import uz.dynamic.techinventory.service.ObyektService;
 import uz.dynamic.techinventory.service.dto.ObyektDTO;
+import uz.dynamic.techinventory.service.dto.ObyektFilterDTO;
 import uz.dynamic.techinventory.web.rest.errors.BadRequestAlertException;
 import uz.dynamic.techinventory.web.rest.utils.HeaderUtil;
 import uz.dynamic.techinventory.web.rest.utils.PaginationUtil;
 import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
-import org.springdoc.api.annotations.ParameterObject;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link uz.dynamic.techinventory.domain.Obyekt}.
@@ -67,15 +67,16 @@ public class ObyektResource {
         }
         ObyektDTO result = obyektService.save(obyektDTO);
         return ResponseEntity
-            .created(new URI("/api/obyekts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/obyekts/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /obyekts/:id} : Updates an existing obyekt.
      *
-     * @param id the id of the obyektDTO to save.
+     * @param id        the id of the obyektDTO to save.
      * @param obyektDTO the obyektDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated obyektDTO,
      * or with status {@code 400 (Bad Request)} if the obyektDTO is not valid,
@@ -83,7 +84,7 @@ public class ObyektResource {
      */
     @PutMapping("/{id}")
     public ResponseEntity<ObyektDTO> updateObyekt(
-        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ObyektDTO obyektDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ObyektDTO obyektDTO) {
         log.debug("REST request to update Obyekt : {}, {}", id, obyektDTO);
         if (obyektDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -98,24 +99,25 @@ public class ObyektResource {
 
         ObyektDTO result = obyektService.update(obyektDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, obyektDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            obyektDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /obyekts/:id} : Partial updates given fields of an existing obyekt, field will ignore if it is null
      *
-     * @param id the id of the obyektDTO to save.
+     * @param id        the id of the obyektDTO to save.
      * @param obyektDTO the obyektDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated obyektDTO,
      * or with status {@code 400 (Bad Request)} if the obyektDTO is not valid,
      * or with status {@code 404 (Not Found)} if the obyektDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the obyektDTO couldn't be updated.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<ObyektDTO> partialUpdateObyekt(
-        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ObyektDTO obyektDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ObyektDTO obyektDTO) {
         log.debug("REST request to partial update Obyekt partially : {}, {}", id, obyektDTO);
         if (obyektDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -131,8 +133,8 @@ public class ObyektResource {
         Optional<ObyektDTO> result = obyektService.partialUpdate(obyektDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, obyektDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, obyektDTO.getId().toString())
         );
     }
 
@@ -146,22 +148,26 @@ public class ObyektResource {
     public ResponseEntity<List<ObyektDTO>> getAllObyekts(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Obyekts");
         Page<ObyektDTO> page = obyektService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-     * {@code GET  /obyekts/buyurtmaRaqam/:buyurtmaRaqamId} : get all the obyekts.
+     * {@code GET  /obyekts} : get all the obyekts.
+     * Pageable pageable, Long regionId, Long districtId, Long objectTasnifiId,
+     * Long objectTasnifiTuriId, Long loyihaId, Long buyurtmaRaqamId
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of obyekts in body.
      */
-    @GetMapping("/buyurtmaRaqam/{buyurtmaRaqamId}")
-    public ResponseEntity<List<ObyektDTO>> getAllByBuyurtmaRaqam(@ParameterObject Pageable pageable,
-                                                                 @PathVariable("buyurtmaRaqamId") Long buyurtmaRaqamId) {
+    @PostMapping("/filter")
+    public ResponseEntity<List<ObyektDTO>> getAllByFilter(@ParameterObject Pageable pageable,
+                                                          @RequestBody(required = false) ObyektFilterDTO obyektFilterDTO) {
         log.debug("REST request to get a page of Obyekts");
-        Page<ObyektDTO> page = obyektService.findAllByBuyurtmaRaqamId(pageable, buyurtmaRaqamId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        Page<ObyektDTO> page = obyektService.findAllByFilter(pageable, obyektFilterDTO);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -189,8 +195,17 @@ public class ObyektResource {
         log.debug("REST request to delete Obyekt : {}", id);
         obyektService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
+
 }
+
+
+//    @PathVariable(value = "regionId", required = false) Long regionId,
+//    @PathVariable(value = "districtId", required = false) Long districtId,
+//    @PathVariable(value = "objectTasnifiId", required = false) Long objectTasnifiId,
+//    @PathVariable(value = "objectTasnifiTuriId", required = false) Long objectTasnifiTuriId,
+//    @PathVariable(value = "loyihaId", required = false) Long loyihaId,
+//    @PathVariable(value = "buyurtmaRaqamId", required = false) Long buyurtmaRaqamId

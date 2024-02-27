@@ -56,5 +56,4 @@ public interface ObjectTasnifiTuriService {
      */
     void delete(Long id);
 
-    Page<ObjectTasnifiTuriDTO> findAllByDistrict(Pageable pageable, Long districtId);
 }

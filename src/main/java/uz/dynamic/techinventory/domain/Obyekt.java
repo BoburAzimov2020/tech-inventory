@@ -3,6 +3,7 @@ package uz.dynamic.techinventory.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Obyekt implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -46,10 +48,82 @@ public class Obyekt implements Serializable {
     private String info;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "loyiha" }, allowSetters = true)
+    private Region region;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "region" })
+    private District district;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ObjectTasnifi objectTasnifi;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "objectTasnifi" })
+    private ObjectTasnifiTuri objectTasnifiTuri;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Loyiha loyiha;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private BuyurtmaRaqam buyurtmaRaqam;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
+    }
+
+    public ObjectTasnifi getObjectTasnifi() {
+        return objectTasnifi;
+    }
+
+    public void setObjectTasnifi(ObjectTasnifi objectTasnifi) {
+        this.objectTasnifi = objectTasnifi;
+    }
+
+    public ObjectTasnifiTuri getObjectTasnifiTuri() {
+        return objectTasnifiTuri;
+    }
+
+    public void setObjectTasnifiTuri(ObjectTasnifiTuri objectTasnifiTuri) {
+        this.objectTasnifiTuri = objectTasnifiTuri;
+    }
+
+    public Loyiha getLoyiha() {
+        return loyiha;
+    }
+
+    public void setLoyiha(Loyiha loyiha) {
+        this.loyiha = loyiha;
+    }
+
+    public Obyekt objectTasnifi(ObjectTasnifi objectTasnifi) {
+        this.objectTasnifi = objectTasnifi;
+        return this;
+    }
+
+    public Obyekt objectTasnifiTuri(ObjectTasnifiTuri objectTasnifiTuri) {
+        this.objectTasnifiTuri = objectTasnifiTuri;
+        return this;
+    }
+
+    public Obyekt loyiha(Loyiha loyiha) {
+        this.loyiha = loyiha;
+        return this;
+    }
 
     public Long getId() {
         return this.id;

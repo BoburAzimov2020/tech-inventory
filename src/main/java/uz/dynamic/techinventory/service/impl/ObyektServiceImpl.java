@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.dynamic.techinventory.domain.Obyekt;
 import uz.dynamic.techinventory.repository.ObyektRepository;
+import uz.dynamic.techinventory.repository.specification.ObyektSpecification;
 import uz.dynamic.techinventory.service.ObyektService;
 import uz.dynamic.techinventory.service.dto.ObyektDTO;
+import uz.dynamic.techinventory.service.dto.ObyektFilterDTO;
 import uz.dynamic.techinventory.service.mapper.ObyektMapper;
 
 /**
@@ -23,12 +26,14 @@ public class ObyektServiceImpl implements ObyektService {
     private final Logger log = LoggerFactory.getLogger(ObyektServiceImpl.class);
 
     private final ObyektRepository obyektRepository;
-
     private final ObyektMapper obyektMapper;
+    private final ObyektSpecification obyektSpecification;
 
-    public ObyektServiceImpl(ObyektRepository obyektRepository, ObyektMapper obyektMapper) {
+    public ObyektServiceImpl(ObyektRepository obyektRepository, ObyektMapper obyektMapper,
+                             ObyektSpecification obyektSpecification) {
         this.obyektRepository = obyektRepository;
         this.obyektMapper = obyektMapper;
+        this.obyektSpecification = obyektSpecification;
     }
 
     @Override
@@ -52,14 +57,14 @@ public class ObyektServiceImpl implements ObyektService {
         log.debug("Request to partially update Obyekt : {}", obyektDTO);
 
         return obyektRepository
-            .findById(obyektDTO.getId())
-            .map(existingObyekt -> {
-                obyektMapper.partialUpdate(existingObyekt, obyektDTO);
+                .findById(obyektDTO.getId())
+                .map(existingObyekt -> {
+                    obyektMapper.partialUpdate(existingObyekt, obyektDTO);
 
-                return existingObyekt;
-            })
-            .map(obyektRepository::save)
-            .map(obyektMapper::toDto);
+                    return existingObyekt;
+                })
+                .map(obyektRepository::save)
+                .map(obyektMapper::toDto);
     }
 
     @Override
@@ -73,6 +78,11 @@ public class ObyektServiceImpl implements ObyektService {
     public Page<ObyektDTO> findAllByBuyurtmaRaqamId(Pageable pageable, Long buyurtmaRaqamId) {
         log.debug("Request to get all Obyekts");
         return obyektRepository.findAllByBuyurtmaRaqamId(pageable, buyurtmaRaqamId).map(obyektMapper::toDto);
+    }
+
+    @Override
+    public Page<ObyektDTO> findAllByFilter(Pageable pageable, ObyektFilterDTO obyektFilterDTO) {
+        return obyektRepository.findAll(obyektSpecification.getObyekts(obyektFilterDTO), pageable).map(obyektMapper::toDto);
     }
 
     @Override

@@ -51,6 +51,7 @@ public class TechInventoryApp {
                 Local: \t\t{}://localhost:{}{}
                 External: \t{}://{}:{}{}
                 Profile(s): \t{}
+                Swagger-UI: \t{}://localhost:{}{}swagger-ui/index.html
                 ----------------------------------------------------------""",
                 javaVersion,
                 env.getProperty("spring.application.name"),
@@ -61,7 +62,10 @@ public class TechInventoryApp {
                 hostAddress,
                 serverPort,
                 contextPath,
-                env.getActiveProfiles()
+                env.getActiveProfiles(),
+                protocol,
+                serverPort,
+                contextPath
         );
     }
 }

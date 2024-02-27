@@ -70,12 +70,6 @@ public class LoyihaServiceImpl implements LoyihaService {
     }
 
     @Override
-    public Page<LoyihaDTO> findAllByObjectTasnifi(Pageable pageable, Long objectTasnifiId) {
-        log.debug("Request to get all Loyihas");
-        return loyihaRepository.findAllByObjectTasnifiId(pageable, objectTasnifiId).map(loyihaMapper::toDto);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public Optional<LoyihaDTO> findOne(Long id) {
         log.debug("Request to get Loyiha : {}", id);

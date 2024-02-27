@@ -41,8 +41,6 @@ public interface LoyihaService {
      */
     Page<LoyihaDTO> findAll(Pageable pageable);
 
-    Page<LoyihaDTO> findAllByObjectTasnifi(Pageable pageable, Long objectTasnifiId);
-
     /**
      * Get the "id" loyiha.
      *

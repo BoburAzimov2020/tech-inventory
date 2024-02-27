@@ -151,21 +151,6 @@ public class LoyihaResource {
     }
 
     /**
-     * {@code GET  /loyihas/objectTasnifi/:objectTasnifiId} : get all the loyihas.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of loyihas in body.
-     */
-    @GetMapping("/objectTasnifi/{objectTasnifiId}")
-    public ResponseEntity<List<LoyihaDTO>> getAllByObjectTasnifi(@ParameterObject Pageable pageable,
-                                                                 @PathVariable("objectTasnifiId") Long objectTasnifiId) {
-        log.debug("REST request to get a page of Loyihas");
-        Page<LoyihaDTO> page = loyihaService.findAllByObjectTasnifi(pageable, objectTasnifiId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
      * {@code GET  /loyihas/:id} : get the "id" loyiha.
      *
      * @param id the id of the loyihaDTO to retrieve.

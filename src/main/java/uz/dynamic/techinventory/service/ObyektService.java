@@ -4,6 +4,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.ObyektDTO;
+import uz.dynamic.techinventory.service.dto.ObyektFilterDTO;
 
 /**
  * Service Interface for managing {@link uz.dynamic.techinventory.domain.Obyekt}.
@@ -42,6 +43,7 @@ public interface ObyektService {
     Page<ObyektDTO> findAll(Pageable pageable);
 
     Page<ObyektDTO> findAllByBuyurtmaRaqamId(Pageable pageable, Long buyurtmaRaqamId);
+    Page<ObyektDTO> findAllByFilter(Pageable pageable, ObyektFilterDTO obyektFilterDTO);
 
     /**
      * Get the "id" obyekt.

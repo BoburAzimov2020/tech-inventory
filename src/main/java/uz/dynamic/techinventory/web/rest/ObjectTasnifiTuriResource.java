@@ -155,21 +155,6 @@ public class ObjectTasnifiTuriResource {
     }
 
     /**
-     * {@code GET  /object-tasnifi-turis/:districtId} : get all the objectTasnifiTuris by district.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of objectTasnifiTuris in body.
-     */
-    @GetMapping("/district/{districtId}")
-    public ResponseEntity<List<ObjectTasnifiTuriDTO>> getAllByDistrict(@ParameterObject Pageable pageable,
-                                                                       @PathVariable("districtId") Long districtId) {
-        log.debug("REST request to get a page of ObjectTasnifiTuris by District ID: {}", districtId);
-        Page<ObjectTasnifiTuriDTO> page = objectTasnifiTuriService.findAllByDistrict(pageable, districtId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
      * {@code GET  /object-tasnifi-turis/:id} : get the "id" objectTasnifiTuri.
      *
      * @param id the id of the objectTasnifiTuriDTO to retrieve.
