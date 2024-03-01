@@ -147,22 +147,8 @@ public class ProjectorTypeResource {
     public ResponseEntity<List<ProjectorTypeDTO>> getAllProjectorTypes(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of ProjectorTypes");
         Page<ProjectorTypeDTO> page = projectorTypeService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /projector-types/obyekt/:obyektId} : get all the projectorTypes.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectorTypes in body.
-     */
-    @GetMapping("/obyekt/{obyektId}")
-    public ResponseEntity<List<ProjectorTypeDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
-                                                                 @PathVariable("obyektId") Long obyektId) {
-        log.debug("REST request to get a page of ProjectorTypes");
-        Page<ProjectorTypeDTO> page = projectorTypeService.findAllByOByekt(pageable, obyektId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 

@@ -15,4 +15,8 @@ public interface SwichRepository extends JpaRepository<Swich, Long> {
 
     Page<Swich> findAllBySwichTypeId(Pageable pageable, Long swichTypeId);
 
+    Integer countByObyektId(Long obyektId);
+
+    Page<Swich> findAllByObyektId(Pageable pageable, Long obyektId);
+
 }

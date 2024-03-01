@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -52,14 +53,14 @@ public class SwichTypeServiceImpl implements SwichTypeService {
         log.debug("Request to partially update SwichType : {}", swichTypeDTO);
 
         return swichTypeRepository
-            .findById(swichTypeDTO.getId())
-            .map(existingSwichType -> {
-                swichTypeMapper.partialUpdate(existingSwichType, swichTypeDTO);
+                .findById(swichTypeDTO.getId())
+                .map(existingSwichType -> {
+                    swichTypeMapper.partialUpdate(existingSwichType, swichTypeDTO);
 
-                return existingSwichType;
-            })
-            .map(swichTypeRepository::save)
-            .map(swichTypeMapper::toDto);
+                    return existingSwichType;
+                })
+                .map(swichTypeRepository::save)
+                .map(swichTypeMapper::toDto);
     }
 
     @Override
@@ -67,12 +68,6 @@ public class SwichTypeServiceImpl implements SwichTypeService {
     public Page<SwichTypeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all SwichTypes");
         return swichTypeRepository.findAll(pageable).map(swichTypeMapper::toDto);
-    }
-
-    @Override
-    public Page<SwichTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
-        log.debug("Request to get all SwichTypes");
-        return swichTypeRepository.findAllByObyektId(pageable, obyektId).map(swichTypeMapper::toDto);
     }
 
     @Override

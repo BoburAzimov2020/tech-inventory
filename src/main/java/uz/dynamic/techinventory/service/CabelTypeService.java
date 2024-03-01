@@ -1,9 +1,10 @@
 package uz.dynamic.techinventory.service;
 
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.CabelTypeDTO;
+
+import java.util.Optional;
 
 /**
  * Service Interface for managing {@link uz.dynamic.techinventory.domain.CabelType}.
@@ -40,8 +41,6 @@ public interface CabelTypeService {
      * @return the list of entities.
      */
     Page<CabelTypeDTO> findAll(Pageable pageable);
-
-    Page<CabelTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
 
     /**
      * Get the "id" cabelType.

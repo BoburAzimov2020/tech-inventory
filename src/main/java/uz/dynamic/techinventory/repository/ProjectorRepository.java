@@ -15,4 +15,8 @@ public interface ProjectorRepository extends JpaRepository<Projector, Long> {
 
     Page<Projector> findAllByProjectorTypeId(Pageable pageable, Long projectorTypeId);
 
+    Integer countByObyektId(Long obyektId);
+
+    Page<Projector> findAllByObyektId(Pageable pageable, Long obyektId);
+
 }

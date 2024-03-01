@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -168,10 +169,11 @@ public class ObyektResource {
                                                           @RequestParam(value = "objectTasnifiId", required = false) Long objectTasnifiId,
                                                           @RequestParam(value = "objectTasnifiTuriId", required = false) Long objectTasnifiTuriId,
                                                           @RequestParam(value = "loyihaId", required = false) Long loyihaId,
-                                                          @RequestParam(value = "buyurtmaRaqamId", required = false) Long buyurtmaRaqamId) {
+                                                          @RequestParam(value = "buyurtmaRaqamId", required = false) Long buyurtmaRaqamId,
+                                                          @RequestParam(value = "name", required = false) String name) {
         log.debug("REST request to get a page of Obyekts");
         ObyektFilterDTO obyektFilterDTO = new ObyektFilterDTO(regionId, districtId, objectTasnifiId,
-                                                              objectTasnifiTuriId, loyihaId, buyurtmaRaqamId);
+                                                              objectTasnifiTuriId, loyihaId, buyurtmaRaqamId, name);
         Page<ObyektDTO> page = obyektService.findAllByFilter(pageable, obyektFilterDTO);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
                 ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -189,6 +191,13 @@ public class ObyektResource {
         log.debug("REST request to get Obyekt : {}", id);
         Optional<ObyektDTO> obyektDTO = obyektService.findOne(id);
         return ResponseUtil.wrapOrNotFound(obyektDTO);
+    }
+
+    @GetMapping("/qurilmalar-soni")
+    public ResponseEntity<Map<String, Integer>> countOfModelsByObyekt(@RequestParam("obyektId") Long obyektId) {
+        log.debug("REST request to get Obyekt : {}", obyektId);
+        Map<String, Integer> map = obyektService.getCountOfModelsByObyekt(obyektId);
+        return ResponseUtil.wrapOrNotFound(Optional.of(map));
     }
 
     /**

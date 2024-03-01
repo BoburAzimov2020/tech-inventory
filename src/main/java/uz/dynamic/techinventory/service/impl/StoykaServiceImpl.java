@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -52,14 +53,14 @@ public class StoykaServiceImpl implements StoykaService {
         log.debug("Request to partially update Stoyka : {}", stoykaDTO);
 
         return stoykaRepository
-            .findById(stoykaDTO.getId())
-            .map(existingStoyka -> {
-                stoykaMapper.partialUpdate(existingStoyka, stoykaDTO);
+                .findById(stoykaDTO.getId())
+                .map(existingStoyka -> {
+                    stoykaMapper.partialUpdate(existingStoyka, stoykaDTO);
 
-                return existingStoyka;
-            })
-            .map(stoykaRepository::save)
-            .map(stoykaMapper::toDto);
+                    return existingStoyka;
+                })
+                .map(stoykaRepository::save)
+                .map(stoykaMapper::toDto);
     }
 
     @Override
@@ -67,6 +68,12 @@ public class StoykaServiceImpl implements StoykaService {
     public Page<StoykaDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Stoykas");
         return stoykaRepository.findAll(pageable).map(stoykaMapper::toDto);
+    }
+
+    @Override
+    public Page<StoykaDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all StoykaTypes");
+        return stoykaRepository.findAllByObyektId(pageable, obyektId).map(stoykaMapper::toDto);
     }
 
     @Override

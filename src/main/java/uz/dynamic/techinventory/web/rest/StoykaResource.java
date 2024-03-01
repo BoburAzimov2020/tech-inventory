@@ -67,15 +67,16 @@ public class StoykaResource {
         }
         StoykaDTO result = stoykaService.save(stoykaDTO);
         return ResponseEntity
-            .created(new URI("/api/stoykas/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/stoykas/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /stoykas/:id} : Updates an existing stoyka.
      *
-     * @param id the id of the stoykaDTO to save.
+     * @param id        the id of the stoykaDTO to save.
      * @param stoykaDTO the stoykaDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stoykaDTO,
      * or with status {@code 400 (Bad Request)} if the stoykaDTO is not valid,
@@ -83,7 +84,7 @@ public class StoykaResource {
      */
     @PutMapping("/{id}")
     public ResponseEntity<StoykaDTO> updateStoyka(
-        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody StoykaDTO stoykaDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody StoykaDTO stoykaDTO) {
         log.debug("REST request to update Stoyka : {}, {}", id, stoykaDTO);
         if (stoykaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -98,24 +99,25 @@ public class StoykaResource {
 
         StoykaDTO result = stoykaService.update(stoykaDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stoykaDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            stoykaDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /stoykas/:id} : Partial updates given fields of an existing stoyka, field will ignore if it is null
      *
-     * @param id the id of the stoykaDTO to save.
+     * @param id        the id of the stoykaDTO to save.
      * @param stoykaDTO the stoykaDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stoykaDTO,
      * or with status {@code 400 (Bad Request)} if the stoykaDTO is not valid,
      * or with status {@code 404 (Not Found)} if the stoykaDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the stoykaDTO couldn't be updated.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<StoykaDTO> partialUpdateStoyka(
-        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody StoykaDTO stoykaDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody StoykaDTO stoykaDTO) {
         log.debug("REST request to partial update Stoyka partially : {}, {}", id, stoykaDTO);
         if (stoykaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -131,8 +133,8 @@ public class StoykaResource {
         Optional<StoykaDTO> result = stoykaService.partialUpdate(stoykaDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stoykaDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stoykaDTO.getId().toString())
         );
     }
 
@@ -146,7 +148,24 @@ public class StoykaResource {
     public ResponseEntity<List<StoykaDTO>> getAllStoykas(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Stoykas");
         Page<StoykaDTO> page = stoykaService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /stoyka-types/obyekt/:obyektId} : get all the stoykaTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stoykaTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<StoykaDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                          @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Stoyka");
+        Page<StoykaDTO> page = stoykaService.findAllByObyekt(pageable, obyektId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -161,7 +180,8 @@ public class StoykaResource {
                                                         @PathVariable("typeId") Long typeId) {
         log.debug("REST request to get a page of Stoykas");
         Page<StoykaDTO> page = stoykaService.findAllByStoykaType(pageable, typeId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -189,8 +209,8 @@ public class StoykaResource {
         log.debug("REST request to delete Stoyka : {}", id);
         stoykaService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

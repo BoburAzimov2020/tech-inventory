@@ -15,4 +15,6 @@ public interface AvtomatRepository extends JpaRepository<Avtomat, Long> {
 
     Page<Avtomat> findAllByObyektId(Pageable pageable, Long obyektId);
 
+    Integer countByObyektId(Long obyektId);
+
 }

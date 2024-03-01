@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -52,14 +53,14 @@ public class CameraTypeServiceImpl implements CameraTypeService {
         log.debug("Request to partially update CameraType : {}", cameraTypeDTO);
 
         return cameraTypeRepository
-            .findById(cameraTypeDTO.getId())
-            .map(existingCameraType -> {
-                cameraTypeMapper.partialUpdate(existingCameraType, cameraTypeDTO);
+                .findById(cameraTypeDTO.getId())
+                .map(existingCameraType -> {
+                    cameraTypeMapper.partialUpdate(existingCameraType, cameraTypeDTO);
 
-                return existingCameraType;
-            })
-            .map(cameraTypeRepository::save)
-            .map(cameraTypeMapper::toDto);
+                    return existingCameraType;
+                })
+                .map(cameraTypeRepository::save)
+                .map(cameraTypeMapper::toDto);
     }
 
     @Override
@@ -67,12 +68,6 @@ public class CameraTypeServiceImpl implements CameraTypeService {
     public Page<CameraTypeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all CameraTypes");
         return cameraTypeRepository.findAll(pageable).map(cameraTypeMapper::toDto);
-    }
-
-    @Override
-    public Page<CameraTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
-        log.debug("Request to get all CameraTypes");
-        return cameraTypeRepository.findAllByObyektId(pageable, obyektId).map(cameraTypeMapper::toDto);
     }
 
     @Override

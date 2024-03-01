@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service;
 
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.ProjectorTypeDTO;
@@ -40,8 +41,6 @@ public interface ProjectorTypeService {
      * @return the list of entities.
      */
     Page<ProjectorTypeDTO> findAll(Pageable pageable);
-
-    Page<ProjectorTypeDTO> findAllByOByekt(Pageable pageable, Long obyektId);
 
     /**
      * Get the "id" projectorType.

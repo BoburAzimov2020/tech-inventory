@@ -1,6 +1,8 @@
 package uz.dynamic.techinventory.service;
 
+import java.util.Map;
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.ObyektDTO;
@@ -43,7 +45,10 @@ public interface ObyektService {
     Page<ObyektDTO> findAll(Pageable pageable);
 
     Page<ObyektDTO> findAllByBuyurtmaRaqamId(Pageable pageable, Long buyurtmaRaqamId);
+
     Page<ObyektDTO> findAllByFilter(Pageable pageable, ObyektFilterDTO obyektFilterDTO);
+
+    Map<String, Integer> getCountOfModelsByObyekt(Long obyektId);
 
     /**
      * Get the "id" obyekt.

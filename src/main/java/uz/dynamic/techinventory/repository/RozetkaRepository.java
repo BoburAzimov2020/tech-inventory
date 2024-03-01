@@ -15,4 +15,6 @@ public interface RozetkaRepository extends JpaRepository<Rozetka, Long> {
 
     Page<Rozetka> findAllByObyektId(Pageable pageable, Long obyektId);
 
+    Integer countByObyektId(Long obyektId);
+
 }

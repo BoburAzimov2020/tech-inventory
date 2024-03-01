@@ -22,6 +22,8 @@ public class CabelDTO implements Serializable {
 
     private CabelTypeDTO cabelType;
 
+    private ObyektDTO obyekt;
+
     public Long getId() {
         return id;
     }
@@ -62,6 +64,14 @@ public class CabelDTO implements Serializable {
         this.cabelType = cabelType;
     }
 
+    public ObyektDTO getObyekt() {
+        return obyekt;
+    }
+
+    public void setObyekt(ObyektDTO obyekt) {
+        this.obyekt = obyekt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -92,6 +102,7 @@ public class CabelDTO implements Serializable {
             ", model='" + getModel() + "'" +
             ", info='" + getInfo() + "'" +
             ", cabelType=" + getCabelType() +
+            ", obyekt=" + getObyekt() +
             "}";
     }
 }

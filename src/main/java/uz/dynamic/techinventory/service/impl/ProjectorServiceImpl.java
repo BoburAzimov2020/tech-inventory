@@ -1,6 +1,5 @@
 package uz.dynamic.techinventory.service.impl;
 
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,6 +11,8 @@ import uz.dynamic.techinventory.repository.ProjectorRepository;
 import uz.dynamic.techinventory.service.ProjectorService;
 import uz.dynamic.techinventory.service.dto.ProjectorDTO;
 import uz.dynamic.techinventory.service.mapper.ProjectorMapper;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link uz.dynamic.techinventory.domain.Projector}.
@@ -52,14 +53,14 @@ public class ProjectorServiceImpl implements ProjectorService {
         log.debug("Request to partially update Projector : {}", projectorDTO);
 
         return projectorRepository
-            .findById(projectorDTO.getId())
-            .map(existingProjector -> {
-                projectorMapper.partialUpdate(existingProjector, projectorDTO);
+                .findById(projectorDTO.getId())
+                .map(existingProjector -> {
+                    projectorMapper.partialUpdate(existingProjector, projectorDTO);
 
-                return existingProjector;
-            })
-            .map(projectorRepository::save)
-            .map(projectorMapper::toDto);
+                    return existingProjector;
+                })
+                .map(projectorRepository::save)
+                .map(projectorMapper::toDto);
     }
 
     @Override
@@ -68,6 +69,13 @@ public class ProjectorServiceImpl implements ProjectorService {
         log.debug("Request to get all Projectors");
         return projectorRepository.findAll(pageable).map(projectorMapper::toDto);
     }
+
+    @Override
+    public Page<ProjectorDTO> findAllByOByekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all ProjectorTypes");
+        return projectorRepository.findAllByObyektId(pageable, obyektId).map(projectorMapper::toDto);
+    }
+
 
     @Override
     public Page<ProjectorDTO> findAllByProjectorType(Pageable pageable, Long projectorTypeId) {

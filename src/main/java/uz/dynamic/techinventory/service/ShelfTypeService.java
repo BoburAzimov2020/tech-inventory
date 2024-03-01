@@ -1,9 +1,10 @@
 package uz.dynamic.techinventory.service;
 
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.ShelfTypeDTO;
+
+import java.util.Optional;
 
 /**
  * Service Interface for managing {@link uz.dynamic.techinventory.domain.ShelfType}.
@@ -40,8 +41,6 @@ public interface ShelfTypeService {
      * @return the list of entities.
      */
     Page<ShelfTypeDTO> findAll(Pageable pageable);
-
-    Page<ShelfTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
 
     /**
      * Get the "id" shelfType.

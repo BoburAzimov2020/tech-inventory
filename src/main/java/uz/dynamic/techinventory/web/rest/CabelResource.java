@@ -67,15 +67,16 @@ public class CabelResource {
         }
         CabelDTO result = cabelService.save(cabelDTO);
         return ResponseEntity
-            .created(new URI("/api/cabels/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/cabels/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /cabels/:id} : Updates an existing cabel.
      *
-     * @param id the id of the cabelDTO to save.
+     * @param id       the id of the cabelDTO to save.
      * @param cabelDTO the cabelDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated cabelDTO,
      * or with status {@code 400 (Bad Request)} if the cabelDTO is not valid,
@@ -83,7 +84,7 @@ public class CabelResource {
      */
     @PutMapping("/{id}")
     public ResponseEntity<CabelDTO> updateCabel(
-        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody CabelDTO cabelDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody CabelDTO cabelDTO) {
         log.debug("REST request to update Cabel : {}, {}", id, cabelDTO);
         if (cabelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -98,24 +99,25 @@ public class CabelResource {
 
         CabelDTO result = cabelService.update(cabelDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, cabelDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            cabelDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /cabels/:id} : Partial updates given fields of an existing cabel, field will ignore if it is null
      *
-     * @param id the id of the cabelDTO to save.
+     * @param id       the id of the cabelDTO to save.
      * @param cabelDTO the cabelDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated cabelDTO,
      * or with status {@code 400 (Bad Request)} if the cabelDTO is not valid,
      * or with status {@code 404 (Not Found)} if the cabelDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the cabelDTO couldn't be updated.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<CabelDTO> partialUpdateCabel(
-        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody CabelDTO cabelDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody CabelDTO cabelDTO) {
         log.debug("REST request to partial update Cabel partially : {}, {}", id, cabelDTO);
         if (cabelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -131,8 +133,8 @@ public class CabelResource {
         Optional<CabelDTO> result = cabelService.partialUpdate(cabelDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, cabelDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, cabelDTO.getId().toString())
         );
     }
 
@@ -146,7 +148,24 @@ public class CabelResource {
     public ResponseEntity<List<CabelDTO>> getAllCabels(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Cabels");
         Page<CabelDTO> page = cabelService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /cabel-types/obyekt/:obyektId} : get all the cabelTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cabelTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<CabelDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                         @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Cabel");
+        Page<CabelDTO> page = cabelService.findAllByObyekt(pageable, obyektId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -161,7 +180,8 @@ public class CabelResource {
                                                        @PathVariable("typeId") Long typeId) {
         log.debug("REST request to get a page of Cabels");
         Page<CabelDTO> page = cabelService.findAllByCabelType(pageable, typeId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -189,8 +209,8 @@ public class CabelResource {
         log.debug("REST request to delete Cabel : {}", id);
         cabelService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

@@ -15,4 +15,6 @@ public interface AkumulatorRepository extends JpaRepository<Akumulator, Long> {
 
     Page<Akumulator> findAllByObyektId(Pageable pageable, Long obyektId);
 
+    Integer countByObyektId(Long obyektId);
+
 }

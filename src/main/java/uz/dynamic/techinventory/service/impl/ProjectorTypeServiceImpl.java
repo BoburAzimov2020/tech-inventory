@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -23,10 +24,10 @@ public class ProjectorTypeServiceImpl implements ProjectorTypeService {
     private final Logger log = LoggerFactory.getLogger(ProjectorTypeServiceImpl.class);
 
     private final ProjectorTypeRepository projectorTypeRepository;
-
     private final ProjectorTypeMapper projectorTypeMapper;
 
-    public ProjectorTypeServiceImpl(ProjectorTypeRepository projectorTypeRepository, ProjectorTypeMapper projectorTypeMapper) {
+    public ProjectorTypeServiceImpl(ProjectorTypeRepository projectorTypeRepository,
+                                    ProjectorTypeMapper projectorTypeMapper) {
         this.projectorTypeRepository = projectorTypeRepository;
         this.projectorTypeMapper = projectorTypeMapper;
     }
@@ -52,14 +53,14 @@ public class ProjectorTypeServiceImpl implements ProjectorTypeService {
         log.debug("Request to partially update ProjectorType : {}", projectorTypeDTO);
 
         return projectorTypeRepository
-            .findById(projectorTypeDTO.getId())
-            .map(existingProjectorType -> {
-                projectorTypeMapper.partialUpdate(existingProjectorType, projectorTypeDTO);
+                .findById(projectorTypeDTO.getId())
+                .map(existingProjectorType -> {
+                    projectorTypeMapper.partialUpdate(existingProjectorType, projectorTypeDTO);
 
-                return existingProjectorType;
-            })
-            .map(projectorTypeRepository::save)
-            .map(projectorTypeMapper::toDto);
+                    return existingProjectorType;
+                })
+                .map(projectorTypeRepository::save)
+                .map(projectorTypeMapper::toDto);
     }
 
     @Override
@@ -67,12 +68,6 @@ public class ProjectorTypeServiceImpl implements ProjectorTypeService {
     public Page<ProjectorTypeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ProjectorTypes");
         return projectorTypeRepository.findAll(pageable).map(projectorTypeMapper::toDto);
-    }
-
-    @Override
-    public Page<ProjectorTypeDTO> findAllByOByekt(Pageable pageable, Long obyektId) {
-        log.debug("Request to get all ProjectorTypes");
-        return projectorTypeRepository.findAllByObyektId(pageable, obyektId).map(projectorTypeMapper::toDto);
     }
 
     @Override

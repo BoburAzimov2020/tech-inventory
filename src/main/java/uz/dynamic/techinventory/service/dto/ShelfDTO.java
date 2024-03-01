@@ -34,6 +34,8 @@ public class ShelfDTO implements Serializable {
 
     private ShelfTypeDTO shelfType;
 
+    private ObyektDTO obyekt;
+
     public Long getId() {
         return id;
     }
@@ -74,6 +76,14 @@ public class ShelfDTO implements Serializable {
         this.shelfType = shelfType;
     }
 
+    public ObyektDTO getObyekt() {
+        return obyekt;
+    }
+
+    public void setObyekt(ObyektDTO obyekt) {
+        this.obyekt = obyekt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -104,6 +114,7 @@ public class ShelfDTO implements Serializable {
             ", digitNumber='" + getDigitNumber() + "'" +
             ", info='" + getInfo() + "'" +
             ", shelfType=" + getShelfType() +
+            ", obyekt=" + getObyekt() +
             "}";
     }
 }

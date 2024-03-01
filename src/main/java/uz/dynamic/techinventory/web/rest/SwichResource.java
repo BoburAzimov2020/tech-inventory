@@ -1,16 +1,9 @@
 package uz.dynamic.techinventory.web.rest;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import uz.dynamic.techinventory.repository.SwichRepository;
 import uz.dynamic.techinventory.service.SwichService;
 import uz.dynamic.techinventory.service.dto.SwichDTO;
@@ -26,7 +18,14 @@ import uz.dynamic.techinventory.web.rest.errors.BadRequestAlertException;
 import uz.dynamic.techinventory.web.rest.utils.HeaderUtil;
 import uz.dynamic.techinventory.web.rest.utils.PaginationUtil;
 import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
-import org.springdoc.api.annotations.ParameterObject;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link uz.dynamic.techinventory.domain.Swich}.
@@ -148,6 +147,22 @@ public class SwichResource {
     public ResponseEntity<List<SwichDTO>> getAllSwiches(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Swiches");
         Page<SwichDTO> page = swichService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /swich-types/obyekt/:obyektId} : get all the swichTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of swichTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<SwichDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                         @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Swich");
+        Page<SwichDTO> page = swichService.findAllByObyekt(pageable, obyektId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
                 ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

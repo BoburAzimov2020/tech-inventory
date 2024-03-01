@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -52,14 +53,14 @@ public class CabelServiceImpl implements CabelService {
         log.debug("Request to partially update Cabel : {}", cabelDTO);
 
         return cabelRepository
-            .findById(cabelDTO.getId())
-            .map(existingCabel -> {
-                cabelMapper.partialUpdate(existingCabel, cabelDTO);
+                .findById(cabelDTO.getId())
+                .map(existingCabel -> {
+                    cabelMapper.partialUpdate(existingCabel, cabelDTO);
 
-                return existingCabel;
-            })
-            .map(cabelRepository::save)
-            .map(cabelMapper::toDto);
+                    return existingCabel;
+                })
+                .map(cabelRepository::save)
+                .map(cabelMapper::toDto);
     }
 
     @Override
@@ -67,6 +68,12 @@ public class CabelServiceImpl implements CabelService {
     public Page<CabelDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Cabels");
         return cabelRepository.findAll(pageable).map(cabelMapper::toDto);
+    }
+
+    @Override
+    public Page<CabelDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all CabelTypes");
+        return cabelRepository.findAllByObyektId(pageable, obyektId).map(cabelMapper::toDto);
     }
 
     @Override

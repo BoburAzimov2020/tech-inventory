@@ -60,22 +60,24 @@ public class ProjectorResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<ProjectorDTO> createProjector(@Valid @RequestBody ProjectorDTO projectorDTO) throws URISyntaxException {
+    public ResponseEntity<ProjectorDTO> createProjector(
+            @Valid @RequestBody ProjectorDTO projectorDTO) throws URISyntaxException {
         log.debug("REST request to save Projector : {}", projectorDTO);
         if (projectorDTO.getId() != null) {
             throw new BadRequestAlertException("A new projector cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ProjectorDTO result = projectorService.save(projectorDTO);
         return ResponseEntity
-            .created(new URI("/api/projectors/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/projectors/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /projectors/:id} : Updates an existing projector.
      *
-     * @param id the id of the projectorDTO to save.
+     * @param id           the id of the projectorDTO to save.
      * @param projectorDTO the projectorDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated projectorDTO,
      * or with status {@code 400 (Bad Request)} if the projectorDTO is not valid,
@@ -83,7 +85,8 @@ public class ProjectorResource {
      */
     @PutMapping("/{id}")
     public ResponseEntity<ProjectorDTO> updateProjector(
-        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ProjectorDTO projectorDTO) {
+            @PathVariable(value = "id", required = false) final Long id,
+            @Valid @RequestBody ProjectorDTO projectorDTO) {
         log.debug("REST request to update Projector : {}, {}", id, projectorDTO);
         if (projectorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -98,24 +101,26 @@ public class ProjectorResource {
 
         ProjectorDTO result = projectorService.update(projectorDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, projectorDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            projectorDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /projectors/:id} : Partial updates given fields of an existing projector, field will ignore if it is null
      *
-     * @param id the id of the projectorDTO to save.
+     * @param id           the id of the projectorDTO to save.
      * @param projectorDTO the projectorDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated projectorDTO,
      * or with status {@code 400 (Bad Request)} if the projectorDTO is not valid,
      * or with status {@code 404 (Not Found)} if the projectorDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the projectorDTO couldn't be updated.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<ProjectorDTO> partialUpdateProjector(
-        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ProjectorDTO projectorDTO) {
+            @PathVariable(value = "id", required = false) final Long id,
+            @NotNull @RequestBody ProjectorDTO projectorDTO) {
         log.debug("REST request to partial update Projector partially : {}, {}", id, projectorDTO);
         if (projectorDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -131,8 +136,8 @@ public class ProjectorResource {
         Optional<ProjectorDTO> result = projectorService.partialUpdate(projectorDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, projectorDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, projectorDTO.getId().toString())
         );
     }
 
@@ -146,7 +151,24 @@ public class ProjectorResource {
     public ResponseEntity<List<ProjectorDTO>> getAllProjectors(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Projectors");
         Page<ProjectorDTO> page = projectorService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /projector-types/obyekt/:obyektId} : get all the projectorTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectorTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<ProjectorDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                             @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Projector");
+        Page<ProjectorDTO> page = projectorService.findAllByOByekt(pageable, obyektId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -161,7 +183,8 @@ public class ProjectorResource {
                                                            @PathVariable("typeId") Long typeId) {
         log.debug("REST request to get a page of Projectors");
         Page<ProjectorDTO> page = projectorService.findAllByProjectorType(pageable, typeId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -189,8 +212,8 @@ public class ProjectorResource {
         log.debug("REST request to delete Projector : {}", id);
         projectorService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

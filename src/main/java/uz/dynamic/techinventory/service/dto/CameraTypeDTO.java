@@ -23,7 +23,6 @@ public class CameraTypeDTO implements Serializable {
     @Size(max = 1024)
     private String info;
 
-    private ObyektDTO obyekt;
 
     public Long getId() {
         return id;
@@ -47,14 +46,6 @@ public class CameraTypeDTO implements Serializable {
 
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public ObyektDTO getObyekt() {
-        return obyekt;
-    }
-
-    public void setObyekt(ObyektDTO obyekt) {
-        this.obyekt = obyekt;
     }
 
     @Override
@@ -85,7 +76,6 @@ public class CameraTypeDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", info='" + getInfo() + "'" +
-            ", obyekt=" + getObyekt() +
             "}";
     }
 }

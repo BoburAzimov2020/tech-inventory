@@ -3,6 +3,7 @@ package uz.dynamic.techinventory.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Shelf implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -45,6 +47,10 @@ public class Shelf implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "obyekt" }, allowSetters = true)
     private ShelfType shelfType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "buyurtmaRaqam" }, allowSetters = true)
+    private Obyekt obyekt;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -110,6 +116,19 @@ public class Shelf implements Serializable {
 
     public Shelf shelfType(ShelfType shelfType) {
         this.setShelfType(shelfType);
+        return this;
+    }
+
+    public Obyekt getObyekt() {
+        return this.obyekt;
+    }
+
+    public void setObyekt(Obyekt obyekt) {
+        this.obyekt = obyekt;
+    }
+
+    public Shelf obyekt(Obyekt obyekt) {
+        this.setObyekt(obyekt);
         return this;
     }
 

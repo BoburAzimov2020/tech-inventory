@@ -1,11 +1,12 @@
 package uz.dynamic.techinventory.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * A CabelType.
@@ -16,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class CabelType implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -31,10 +33,6 @@ public class CabelType implements Serializable {
     @Size(max = 1024)
     @Column(name = "info", length = 1024)
     private String info;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "buyurtmaRaqam" }, allowSetters = true)
-    private Obyekt obyekt;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -75,19 +73,6 @@ public class CabelType implements Serializable {
 
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public Obyekt getObyekt() {
-        return this.obyekt;
-    }
-
-    public void setObyekt(Obyekt obyekt) {
-        this.obyekt = obyekt;
-    }
-
-    public CabelType obyekt(Obyekt obyekt) {
-        this.setObyekt(obyekt);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

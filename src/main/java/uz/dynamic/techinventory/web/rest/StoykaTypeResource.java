@@ -60,22 +60,24 @@ public class StoykaTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<StoykaTypeDTO> createStoykaType(@Valid @RequestBody StoykaTypeDTO stoykaTypeDTO) throws URISyntaxException {
+    public ResponseEntity<StoykaTypeDTO> createStoykaType(
+            @Valid @RequestBody StoykaTypeDTO stoykaTypeDTO) throws URISyntaxException {
         log.debug("REST request to save StoykaType : {}", stoykaTypeDTO);
         if (stoykaTypeDTO.getId() != null) {
             throw new BadRequestAlertException("A new stoykaType cannot already have an ID", ENTITY_NAME, "idexists");
         }
         StoykaTypeDTO result = stoykaTypeService.save(stoykaTypeDTO);
         return ResponseEntity
-            .created(new URI("/api/stoyka-types/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/stoyka-types/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /stoyka-types/:id} : Updates an existing stoykaType.
      *
-     * @param id the id of the stoykaTypeDTO to save.
+     * @param id            the id of the stoykaTypeDTO to save.
      * @param stoykaTypeDTO the stoykaTypeDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stoykaTypeDTO,
      * or with status {@code 400 (Bad Request)} if the stoykaTypeDTO is not valid,
@@ -83,7 +85,8 @@ public class StoykaTypeResource {
      */
     @PutMapping("/{id}")
     public ResponseEntity<StoykaTypeDTO> updateStoykaType(
-        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody StoykaTypeDTO stoykaTypeDTO) {
+            @PathVariable(value = "id", required = false) final Long id,
+            @Valid @RequestBody StoykaTypeDTO stoykaTypeDTO) {
         log.debug("REST request to update StoykaType : {}, {}", id, stoykaTypeDTO);
         if (stoykaTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -98,24 +101,26 @@ public class StoykaTypeResource {
 
         StoykaTypeDTO result = stoykaTypeService.update(stoykaTypeDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stoykaTypeDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            stoykaTypeDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /stoyka-types/:id} : Partial updates given fields of an existing stoykaType, field will ignore if it is null
      *
-     * @param id the id of the stoykaTypeDTO to save.
+     * @param id            the id of the stoykaTypeDTO to save.
      * @param stoykaTypeDTO the stoykaTypeDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stoykaTypeDTO,
      * or with status {@code 400 (Bad Request)} if the stoykaTypeDTO is not valid,
      * or with status {@code 404 (Not Found)} if the stoykaTypeDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the stoykaTypeDTO couldn't be updated.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<StoykaTypeDTO> partialUpdateStoykaType(
-        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody StoykaTypeDTO stoykaTypeDTO) {
+            @PathVariable(value = "id", required = false) final Long id,
+            @NotNull @RequestBody StoykaTypeDTO stoykaTypeDTO) {
         log.debug("REST request to partial update StoykaType partially : {}, {}", id, stoykaTypeDTO);
         if (stoykaTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -131,8 +136,9 @@ public class StoykaTypeResource {
         Optional<StoykaTypeDTO> result = stoykaTypeService.partialUpdate(stoykaTypeDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stoykaTypeDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                   stoykaTypeDTO.getId().toString())
         );
     }
 
@@ -146,22 +152,8 @@ public class StoykaTypeResource {
     public ResponseEntity<List<StoykaTypeDTO>> getAllStoykaTypes(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of StoykaTypes");
         Page<StoykaTypeDTO> page = stoykaTypeService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /stoyka-types/obyekt/:obyektId} : get all the stoykaTypes.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stoykaTypes in body.
-     */
-    @GetMapping("/obyekt/{obyektId}")
-    public ResponseEntity<List<StoykaTypeDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
-                                                                 @PathVariable("obyektId") Long obyektId) {
-        log.debug("REST request to get a page of StoykaTypes");
-        Page<StoykaTypeDTO> page = stoykaTypeService.findAllByObyekt(pageable, obyektId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -189,8 +181,8 @@ public class StoykaTypeResource {
         log.debug("REST request to delete StoykaType : {}", id);
         stoykaTypeService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

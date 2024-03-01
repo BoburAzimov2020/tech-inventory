@@ -3,6 +3,7 @@ package uz.dynamic.techinventory.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -17,6 +18,7 @@ import uz.dynamic.techinventory.domain.enumeration.CameraStatus;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Camera implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -72,6 +74,10 @@ public class Camera implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private CameraBrand cameraBrand;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "buyurtmaRaqam" }, allowSetters = true)
+    private Obyekt obyekt;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -189,6 +195,19 @@ public class Camera implements Serializable {
 
     public Camera cameraBrand(CameraBrand cameraBrand) {
         this.setCameraBrand(cameraBrand);
+        return this;
+    }
+
+    public Obyekt getObyekt() {
+        return this.obyekt;
+    }
+
+    public void setObyekt(Obyekt obyekt) {
+        this.obyekt = obyekt;
+    }
+
+    public Camera obyekt(Obyekt obyekt) {
+        this.setObyekt(obyekt);
         return this;
     }
 

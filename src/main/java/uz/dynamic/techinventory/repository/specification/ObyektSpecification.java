@@ -1,5 +1,6 @@
 package uz.dynamic.techinventory.repository.specification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import uz.dynamic.techinventory.domain.*;
@@ -18,6 +19,9 @@ public class ObyektSpecification {
             List<Predicate> predicates = new ArrayList<>();
 
             if (request != null) {
+                if (StringUtils.isNotEmpty(request.getName())) { // name like?
+                    predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + request.getName().toLowerCase() + "%"));
+                }
                 if (request.getRegionId() != null) { // regionID = ?
                     Join<Obyekt, Region> join = root.join("region");
                     predicates.add(criteriaBuilder.equal(join.get("id"), request.getRegionId()));

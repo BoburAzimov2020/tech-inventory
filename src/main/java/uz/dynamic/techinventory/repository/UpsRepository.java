@@ -15,4 +15,6 @@ public interface UpsRepository extends JpaRepository<Ups, Long> {
 
     Page<Ups> findAllByObyektId(Pageable pageable, Long obyektId);
 
+    Integer countByObyektId(Long obyektId);
+
 }

@@ -18,8 +18,6 @@ public class CabelTypeDTO implements Serializable {
     @Size(max = 1024)
     private String info;
 
-    private ObyektDTO obyekt;
-
     public Long getId() {
         return id;
     }
@@ -44,13 +42,6 @@ public class CabelTypeDTO implements Serializable {
         this.info = info;
     }
 
-    public ObyektDTO getObyekt() {
-        return obyekt;
-    }
-
-    public void setObyekt(ObyektDTO obyekt) {
-        this.obyekt = obyekt;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -80,7 +71,6 @@ public class CabelTypeDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", info='" + getInfo() + "'" +
-            ", obyekt=" + getObyekt() +
             "}";
     }
 }

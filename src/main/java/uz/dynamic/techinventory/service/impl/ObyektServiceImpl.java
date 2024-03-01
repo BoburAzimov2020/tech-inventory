@@ -1,5 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -9,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.dynamic.techinventory.domain.Obyekt;
-import uz.dynamic.techinventory.repository.ObyektRepository;
+import uz.dynamic.techinventory.repository.*;
 import uz.dynamic.techinventory.repository.specification.ObyektSpecification;
 import uz.dynamic.techinventory.service.ObyektService;
 import uz.dynamic.techinventory.service.dto.ObyektDTO;
@@ -28,12 +30,44 @@ public class ObyektServiceImpl implements ObyektService {
     private final ObyektRepository obyektRepository;
     private final ObyektMapper obyektMapper;
     private final ObyektSpecification obyektSpecification;
+    private final AkumulatorRepository akumulatorRepository;
+    private final AvtomatRepository avtomatRepository;
+    private final CabelRepository cabelRepository;
+    private final CameraRepository cameraRepository;
+    private final ProjectorRepository projectorRepository;
+    private final RozetkaRepository rozetkaRepository;
+    private final ShelfRepository shelfRepository;
+    private final StabilizatorRepository stabilizatorRepository;
+    private final StoykaRepository stoykaRepository;
+    private final SvitaforDetectorRepository svitaforDetectorRepository;
+    private final SwichRepository swichRepository;
+    private final TerminalServerRepository terminalServerRepository;
+    private final UpsRepository upsRepository;
 
     public ObyektServiceImpl(ObyektRepository obyektRepository, ObyektMapper obyektMapper,
-                             ObyektSpecification obyektSpecification) {
+                             ObyektSpecification obyektSpecification, AkumulatorRepository akumulatorRepository,
+                             AvtomatRepository avtomatRepository, CabelRepository cabelRepository,
+                             CameraRepository cameraRepository, ProjectorRepository projectorRepository,
+                             RozetkaRepository rozetkaRepository, ShelfRepository shelfRepository,
+                             StabilizatorRepository stabilizatorRepository, StoykaRepository stoykaRepository,
+                             SvitaforDetectorRepository svitaforDetectorRepository, SwichRepository swichRepository,
+                             TerminalServerRepository terminalServerRepository, UpsRepository upsRepository) {
         this.obyektRepository = obyektRepository;
         this.obyektMapper = obyektMapper;
         this.obyektSpecification = obyektSpecification;
+        this.akumulatorRepository = akumulatorRepository;
+        this.avtomatRepository = avtomatRepository;
+        this.cabelRepository = cabelRepository;
+        this.cameraRepository = cameraRepository;
+        this.projectorRepository = projectorRepository;
+        this.rozetkaRepository = rozetkaRepository;
+        this.shelfRepository = shelfRepository;
+        this.stabilizatorRepository = stabilizatorRepository;
+        this.stoykaRepository = stoykaRepository;
+        this.svitaforDetectorRepository = svitaforDetectorRepository;
+        this.swichRepository = swichRepository;
+        this.terminalServerRepository = terminalServerRepository;
+        this.upsRepository = upsRepository;
     }
 
     @Override
@@ -82,7 +116,27 @@ public class ObyektServiceImpl implements ObyektService {
 
     @Override
     public Page<ObyektDTO> findAllByFilter(Pageable pageable, ObyektFilterDTO obyektFilterDTO) {
-        return obyektRepository.findAll(obyektSpecification.getObyekts(obyektFilterDTO), pageable).map(obyektMapper::toDto);
+        return obyektRepository.findAll(obyektSpecification.getObyekts(obyektFilterDTO), pageable).map(
+                obyektMapper::toDto);
+    }
+
+    @Override
+    public Map<String, Integer> getCountOfModelsByObyekt(Long obyektId) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("Akumulator", akumulatorRepository.countByObyektId(obyektId));
+        map.put("Avtomat", avtomatRepository.countByObyektId(obyektId));
+        map.put("Cabel", cabelRepository.countByObyektId(obyektId));
+        map.put("Camera", cameraRepository.countByObyektId(obyektId));
+        map.put("Projector", projectorRepository.countByObyektId(obyektId));
+        map.put("Rozetka", rozetkaRepository.countByObyektId(obyektId));
+        map.put("Shelf", shelfRepository.countByObyektId(obyektId));
+        map.put("Stabilizator", stabilizatorRepository.countByObyektId(obyektId));
+        map.put("Stoyka", stoykaRepository.countByObyektId(obyektId));
+        map.put("SvitaforDetector", svitaforDetectorRepository.countByObyektId(obyektId));
+        map.put("TerminalServer", terminalServerRepository.countByObyektId(obyektId));
+        map.put("UPS", upsRepository.countByObyektId(obyektId));
+        map.put("Switch", swichRepository.countByObyektId(obyektId));
+        return map;
     }
 
     @Override

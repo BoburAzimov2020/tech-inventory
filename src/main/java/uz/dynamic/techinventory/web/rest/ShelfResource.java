@@ -1,16 +1,9 @@
 package uz.dynamic.techinventory.web.rest;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import uz.dynamic.techinventory.repository.ShelfRepository;
 import uz.dynamic.techinventory.service.ShelfService;
 import uz.dynamic.techinventory.service.dto.ShelfDTO;
@@ -26,7 +18,14 @@ import uz.dynamic.techinventory.web.rest.errors.BadRequestAlertException;
 import uz.dynamic.techinventory.web.rest.utils.HeaderUtil;
 import uz.dynamic.techinventory.web.rest.utils.PaginationUtil;
 import uz.dynamic.techinventory.web.rest.utils.ResponseUtil;
-import org.springdoc.api.annotations.ParameterObject;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link uz.dynamic.techinventory.domain.Shelf}.
@@ -67,15 +66,16 @@ public class ShelfResource {
         }
         ShelfDTO result = shelfService.save(shelfDTO);
         return ResponseEntity
-            .created(new URI("/api/shelves/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .created(new URI("/api/shelves/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                                              result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /shelves/:id} : Updates an existing shelf.
      *
-     * @param id the id of the shelfDTO to save.
+     * @param id       the id of the shelfDTO to save.
      * @param shelfDTO the shelfDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated shelfDTO,
      * or with status {@code 400 (Bad Request)} if the shelfDTO is not valid,
@@ -83,7 +83,7 @@ public class ShelfResource {
      */
     @PutMapping("/{id}")
     public ResponseEntity<ShelfDTO> updateShelf(
-        @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ShelfDTO shelfDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody ShelfDTO shelfDTO) {
         log.debug("REST request to update Shelf : {}, {}", id, shelfDTO);
         if (shelfDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -98,24 +98,25 @@ public class ShelfResource {
 
         ShelfDTO result = shelfService.update(shelfDTO);
         return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, shelfDTO.getId().toString()))
-            .body(result);
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
+                                                            shelfDTO.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PATCH  /shelves/:id} : Partial updates given fields of an existing shelf, field will ignore if it is null
      *
-     * @param id the id of the shelfDTO to save.
+     * @param id       the id of the shelfDTO to save.
      * @param shelfDTO the shelfDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated shelfDTO,
      * or with status {@code 400 (Bad Request)} if the shelfDTO is not valid,
      * or with status {@code 404 (Not Found)} if the shelfDTO is not found,
      * or with status {@code 500 (Internal Server Error)} if the shelfDTO couldn't be updated.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<ShelfDTO> partialUpdateShelf(
-        @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ShelfDTO shelfDTO) {
+            @PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody ShelfDTO shelfDTO) {
         log.debug("REST request to partial update Shelf partially : {}, {}", id, shelfDTO);
         if (shelfDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -131,8 +132,8 @@ public class ShelfResource {
         Optional<ShelfDTO> result = shelfService.partialUpdate(shelfDTO);
 
         return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, shelfDTO.getId().toString())
+                result,
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, shelfDTO.getId().toString())
         );
     }
 
@@ -146,7 +147,24 @@ public class ShelfResource {
     public ResponseEntity<List<ShelfDTO>> getAllShelves(@ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Shelves");
         Page<ShelfDTO> page = shelfService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /shelf-types/obyekt/:obyektId} : get all the shelfTypes.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of shelfTypes in body.
+     */
+    @GetMapping("/obyekt/{obyektId}")
+    public ResponseEntity<List<ShelfDTO>> getAllByObyekt(@ParameterObject Pageable pageable,
+                                                         @PathVariable("obyektId") Long obyektId) {
+        log.debug("REST request to get a page of Shelf");
+        Page<ShelfDTO> page = shelfService.findAllByObyekt(pageable, obyektId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -158,10 +176,11 @@ public class ShelfResource {
      */
     @GetMapping("/type/{typeId}")
     public ResponseEntity<List<ShelfDTO>> getAllByType(@ParameterObject Pageable pageable,
-                                                        @PathVariable("typeId") Long typeId) {
+                                                       @PathVariable("typeId") Long typeId) {
         log.debug("REST request to get a page of Shelves");
         Page<ShelfDTO> page = shelfService.findAllByShelfType(pageable, typeId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+                ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -189,8 +208,8 @@ public class ShelfResource {
         log.debug("REST request to delete Shelf : {}", id);
         shelfService.delete(id);
         return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

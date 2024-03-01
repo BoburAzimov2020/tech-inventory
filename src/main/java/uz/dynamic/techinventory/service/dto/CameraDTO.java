@@ -60,6 +60,8 @@ public class CameraDTO implements Serializable {
 
     private CameraBrandDTO cameraBrand;
 
+    private ObyektDTO obyekt;
+
     public Long getId() {
         return id;
     }
@@ -132,6 +134,14 @@ public class CameraDTO implements Serializable {
         this.cameraBrand = cameraBrand;
     }
 
+    public ObyektDTO getObyekt() {
+        return obyekt;
+    }
+
+    public void setObyekt(ObyektDTO obyekt) {
+        this.obyekt = obyekt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -166,6 +176,7 @@ public class CameraDTO implements Serializable {
             ", info='" + getInfo() + "'" +
             ", cameraType=" + getCameraType() +
             ", cameraBrand=" + getCameraBrand() +
+            ", obyekt=" + getObyekt() +
             "}";
     }
 }

@@ -41,6 +41,8 @@ public interface ProjectorService {
      */
     Page<ProjectorDTO> findAll(Pageable pageable);
 
+    Page<ProjectorDTO> findAllByOByekt(Pageable pageable, Long obyektId);
+
     Page<ProjectorDTO> findAllByProjectorType(Pageable pageable, Long projectorTypeId);
 
     /**

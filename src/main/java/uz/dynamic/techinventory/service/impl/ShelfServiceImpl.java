@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service.impl;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -52,14 +53,14 @@ public class ShelfServiceImpl implements ShelfService {
         log.debug("Request to partially update Shelf : {}", shelfDTO);
 
         return shelfRepository
-            .findById(shelfDTO.getId())
-            .map(existingShelf -> {
-                shelfMapper.partialUpdate(existingShelf, shelfDTO);
+                .findById(shelfDTO.getId())
+                .map(existingShelf -> {
+                    shelfMapper.partialUpdate(existingShelf, shelfDTO);
 
-                return existingShelf;
-            })
-            .map(shelfRepository::save)
-            .map(shelfMapper::toDto);
+                    return existingShelf;
+                })
+                .map(shelfRepository::save)
+                .map(shelfMapper::toDto);
     }
 
     @Override
@@ -67,6 +68,12 @@ public class ShelfServiceImpl implements ShelfService {
     public Page<ShelfDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Shelves");
         return shelfRepository.findAll(pageable).map(shelfMapper::toDto);
+    }
+
+    @Override
+    public Page<ShelfDTO> findAllByObyekt(Pageable pageable, Long obyektId) {
+        log.debug("Request to get all ShelfTypes");
+        return shelfRepository.findAllByObyektId(pageable, obyektId).map(shelfMapper::toDto);
     }
 
     @Override

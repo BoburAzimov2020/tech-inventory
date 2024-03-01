@@ -1,9 +1,10 @@
 package uz.dynamic.techinventory.service;
 
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.SwichTypeDTO;
+
+import java.util.Optional;
 
 /**
  * Service Interface for managing {@link uz.dynamic.techinventory.domain.SwichType}.
@@ -40,8 +41,6 @@ public interface SwichTypeService {
      * @return the list of entities.
      */
     Page<SwichTypeDTO> findAll(Pageable pageable);
-
-    Page<SwichTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
 
     /**
      * Get the "id" swichType.

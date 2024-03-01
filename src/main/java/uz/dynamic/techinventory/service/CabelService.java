@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service;
 
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.CabelDTO;
@@ -32,6 +33,8 @@ public interface CabelService {
      * @return the persisted entity.
      */
     Optional<CabelDTO> partialUpdate(CabelDTO cabelDTO);
+
+    Page<CabelDTO> findAllByObyekt(Pageable pageable, Long obyektId);
 
     /**
      * Get all the cabels.

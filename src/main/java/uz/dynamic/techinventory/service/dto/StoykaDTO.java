@@ -20,6 +20,8 @@ public class StoykaDTO implements Serializable {
 
     private StoykaTypeDTO stoykaType;
 
+    private ObyektDTO obyekt;
+
     public Long getId() {
         return id;
     }
@@ -50,6 +52,14 @@ public class StoykaDTO implements Serializable {
 
     public void setStoykaType(StoykaTypeDTO stoykaType) {
         this.stoykaType = stoykaType;
+    }
+
+    public ObyektDTO getObyekt() {
+        return obyekt;
+    }
+
+    public void setObyekt(ObyektDTO obyekt) {
+        this.obyekt = obyekt;
     }
 
     @Override

@@ -22,6 +22,8 @@ public class ProjectorDTO implements Serializable {
 
     private ProjectorTypeDTO projectorType;
 
+    private ObyektDTO obyekt;
+
     public Long getId() {
         return id;
     }
@@ -44,6 +46,14 @@ public class ProjectorDTO implements Serializable {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public ObyektDTO getObyekt() {
+        return obyekt;
+    }
+
+    public void setObyekt(ObyektDTO obyekt) {
+        this.obyekt = obyekt;
     }
 
     public String getInfo() {

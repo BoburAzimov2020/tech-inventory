@@ -15,4 +15,6 @@ public interface StabilizatorRepository extends JpaRepository<Stabilizator, Long
 
     Page<Stabilizator> findAllByObyektId(Pageable pageable, Long obyektId);
 
+    Integer countByObyektId(Long obyektId);
+
 }

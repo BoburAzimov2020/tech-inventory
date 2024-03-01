@@ -15,4 +15,6 @@ public interface SvitaforDetectorRepository extends JpaRepository<SvitaforDetect
 
     Page<SvitaforDetector> findAllByObyektId(Pageable pageable, Long obyektId);
 
+    Integer countByObyektId(Long obyektId);
+
 }

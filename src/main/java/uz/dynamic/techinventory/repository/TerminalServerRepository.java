@@ -15,4 +15,6 @@ public interface TerminalServerRepository extends JpaRepository<TerminalServer, 
 
     Page<TerminalServer> findAllByObyektId(Pageable pageable, Long obyektId);
 
+    Integer countByObyektId(Long obyektId);
+
 }

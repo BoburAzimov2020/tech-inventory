@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service;
 
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.CameraDTO;
@@ -40,6 +41,8 @@ public interface CameraService {
      * @return the list of entities.
      */
     Page<CameraDTO> findAll(Pageable pageable);
+
+    Page<CameraDTO> findAllByObyekt(Pageable pageable, Long obyektId);
 
     Page<CameraDTO> findAllByCameraType(Pageable pageable, Long cameraTypeId);
 

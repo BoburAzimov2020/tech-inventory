@@ -1,6 +1,7 @@
 package uz.dynamic.techinventory.service;
 
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.dynamic.techinventory.service.dto.StoykaTypeDTO;
@@ -40,8 +41,6 @@ public interface StoykaTypeService {
      * @return the list of entities.
      */
     Page<StoykaTypeDTO> findAll(Pageable pageable);
-
-    Page<StoykaTypeDTO> findAllByObyekt(Pageable pageable, Long obyektId);
 
     /**
      * Get the "id" stoykaType.
